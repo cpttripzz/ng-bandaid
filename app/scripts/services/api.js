@@ -9,6 +9,5 @@
  */
 angular.module('bandaidApp')
   .constant('API', {
-    'uri' : 'http://api.bandaid.com',
-    'loginPath' : '/user/login'
+    'uri' : 'http://api.bandaid.com/user/login'
   });
