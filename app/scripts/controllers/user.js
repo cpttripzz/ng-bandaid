@@ -9,13 +9,14 @@
  */
 angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', 'commonService'])
 
-  .config(function ($authProvider) {
+  .config(function ($authProvider,APIConfigProvider) {
 
     // the following shows the default values. values passed to this method
     // will extend the defaults using angular.extend
-
+    var apiConfig = APIConfigProvider.$get[0]();
+    apiConfig = apiConfig();
     $authProvider.configure({
-      apiUrl: 'http://api.bandaid.com',
+      apiUrl: apiConfig.baseUri,
       tokenValidationPath: '/auth/validate_token',
       signOutUrl: '/auth/logout',
       emailRegistrationPath: '/auth',
@@ -25,7 +26,7 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
       passwordResetPath: '/auth/password',
       passwordUpdatePath: '/auth/password',
       passwordResetSuccessUrl: window.location.href,
-      emailSignInPath: '/user/login',
+      emailSignInPath: apiConfig.loginPath,
       storage: 'cookies',
       proxyIf: function () {
         return false;
