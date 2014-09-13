@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name bandaidApp.controller:MainCtrl
+ * @name bandaidApp.controller:mainCtrl
  * @description
  * # MainCtrl
  * Controller of the bandaidApp
  */
 angular.module('bandaidApp')
 
-  .controller('MainCtrl', function ($scope) {
+  .controller('mainCtrl', function ($scope) {
 
   });

@@ -7,7 +7,7 @@
  * # dialogCtrl
  * Controller of the bandaidApp
  */
-angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', 'commonService'])
+angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', 'ngStorage','commonService'])
 
   .config(function ($authProvider,APIConfigProvider) {
 
@@ -18,7 +18,7 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
     $authProvider.configure({
       apiUrl: apiConfig.baseUri,
       tokenValidationPath: '/auth/validate_token',
-      signOutUrl: '/auth/logout',
+      signOutUrl: apiConfig.logoutPath,
       emailRegistrationPath: '/auth',
       accountUpdatePath: '/auth',
       accountDeletePath: '/auth',
@@ -49,7 +49,7 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
         return (parseInt(headers['expiry']) * 1000) || null;
       },
       handleLoginResponse: function (response) {
-        return response.data;
+        return response.user;
       },
       handleAccountResponse: function (response) {
         return response.data;
@@ -59,30 +59,9 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
       }
     });
   })
-  .controller('dialogCtrl', function ($scope, $rootScope, dialogs) {
-    $scope.launch = function (which) {
-      switch (which) {
-        case 'error':
-          dialogs.error();
-          break;
-        case 'login':
-          var dlg = dialogs.create('dialogs/login.html', 'loginDialogCtrl', {}, 'lg');
-          dlg.result.then(function (name) {
-            $scope.name = name;
-          }, function () {
-            if (angular.equals($scope.name, '')) {
-              $scope.name = 'You did not enter in your name!';
-            }
-          });
-          break;
-      }
-    }; // end launch
-  })
 
-  .controller('loginDialogCtrl', function ($scope, $modalInstance, $http) {
-    //-- Variables --//
 
-    $scope.user = {name: ''};
+  .controller('userDialogCtrl', function ($scope, $rootScope,$modalInstance, $http,$auth,$sessionStorage) {
 
     //-- Methods --//
 
@@ -91,7 +70,7 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
     }; // end cancel
 
     $scope.save = function () {
-      $modalInstance.close($scope.user.name);
+
     }; // end save
 
     $scope.hitEnter = function (evt) {
@@ -99,6 +78,17 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
         $scope.save();
       }
     };
+    $rootScope.$on('auth:login-success', function(ev, user) {
+      $scope.$storage = $sessionStorage;
+      $scope.$storage.user = user;
+      $scope.user = user;
+      $modalInstance.close();
+    });
+    $rootScope.$on('auth:logout-success', function(ev) {
+      debugger;
+      $scope.$storage = $sessionStorage;
+      delete  $scope.$storage.user;
+    });
   })
 
   .config(['$sceDelegateProvider','APIConfigProvider', function ($sceDelegateProvider, APIConfig) {
@@ -128,5 +118,5 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
   }])
 
   .run(['$templateCache', function ($templateCache) {
-    $templateCache.put('dialogs/login.html', '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button> <h4 class="modal-title">Login</h4></div> <div class="modal-body"> <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}"> <div class="form-group"><label>email</label> <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control"/></div> <div class="form-group"><label>password</label> <input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/></div> <p class="text-right"><a class="btn btn-facebook btn-width-200" id="btn-register">Register</a></p> <p class="text-right"><a href="#">Forgot password?</a></p> <div id="btn-facebook" class="btn btn-facebook btn-width-200"><i class="fa fa-facebook"></i> | Connect with Facebook </div> <div id="btn-google-plus" class="btn btn-google-plus btn-width-200"><i class="fa fa-google-plus"></i> | Connect with Google + </div> <div id="btn-twiter" class="btn btn-twitter btn-width-200"><i class="fa fa-twitter"></i> | Connect with Twitter </div> <div id="btn-github" class="btn btn-github btn-width-200"><i class="fa fa-github"></i> | Connect with Github </div> <button type="submit" class="btn btn-primary btn-lg">Sign in</button> </form> <div class="error"></div> </div>');
+    $templateCache.put('dialogs/login.html', '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button> <h4 class="modal-title">Login</h4> </div> <div class="modal-body"> <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}"> <div class="form-group"> <label>email</label> <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control"/> </div> <div class="form-group"> <label>password</label> <input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/> </div> <button type="submit" class="btn btn-primary btn-lg">Sign in</button> </form> <div class="error"></div> </div> ');
   }]);

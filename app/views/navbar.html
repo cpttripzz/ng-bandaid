@@ -2,22 +2,16 @@
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
       <li icon="fa fa-list" class="first">
-        <a href="/home">
-          <i class="fa fa-list"/>
-          Home</a>
+        <a href="/home"><i class="fa fa-list"/>Home</a>
       </li>
       <li icon="fa fa-music">
-        <a href="/musician">
-          <i class="fa fa-music"/>
-          Musicians </a>
+        <a href="/musician"><i class="fa fa-music"/>Musicians </a>
       </li>
       <li icon="fa fa-group" class="last">
-        <a href="/band/">
-          <i class="fa fa-group"/>
-          Bands </a>
+        <a href="/band/"><i class="fa fa-group"/>Bands </a>
       </li>
     </ul>
-    <ul class="nav pull-right">
+    <ul class="nav pull-right" >
       <li icon="icon-user" class="current_ancestor first last dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <i class="icon-user"></i>
@@ -28,6 +22,24 @@
             <a ng-click="launch('login')">
               <i class="fa fa-sign-in"></i>
               Login </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav pull-right" ng-if="user">
+      <li icon="icon-user" class="first last dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-user"></i>
+        Hi {{user.email}} <b class="caret"></b> </a>
+        <ul class="menu_level_1 dropdown-menu">
+          <li icon="icon-edit" class="first">
+            <a href="/user">
+              <i class="icon-edit">Edit profile</i></a>
+          </li>
+          <li badge="0" id="new_messages">
+            <a href="/message"><span id="new_messages_badge" class="badge">0 Messages</span></a>
+          </li>
+          <li icon="fa fa-sign-out" class="last">
+            <a ng-click="signOut()"><i class="fa fa-sign-out">Logout</i></a>
           </li>
         </ul>
       </li>

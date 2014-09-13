@@ -48,8 +48,9 @@ angular.module('commonService', [])
       return function() {
         var API ={
           'baseUri': 'http://api.bandaid.com',
-          'loginPath' : '/user/login'
-        }
+          'loginPath' : '/user/login',
+          'logoutPath' : '/user/logout'
+        };
         return API;
       };
     }
