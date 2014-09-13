@@ -8,18 +8,16 @@
  *
  * Main module of the application.
  */
-angular
-  .module('bandaidApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'
+var app = angular
+  .module('bandaidApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch',
+    'ui.bootstrap', 'dialogs.main', 'ng-token-auth', 'ngStorage','commonService'
   ])
   .config(function ($routeProvider) {
     $routeProvider
-
+      .when('/main', {
+        templateUrl: 'views/main.html',
+        controller: 'mainCtrl'
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'

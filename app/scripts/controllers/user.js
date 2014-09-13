@@ -7,7 +7,7 @@
  * # dialogCtrl
  * Controller of the bandaidApp
  */
-angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', 'ngStorage','commonService'])
+app
 
   .config(function ($authProvider,APIConfigProvider) {
 
@@ -59,7 +59,6 @@ angular.module('bandaidApp', ['ui.bootstrap', 'dialogs.main', 'ng-token-auth', '
       }
     });
   })
-
 
   .controller('userDialogCtrl', function ($scope, $rootScope,$modalInstance, $http,$auth,$sessionStorage) {
 

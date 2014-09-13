@@ -7,8 +7,10 @@
  * # MainCtrl
  * Controller of the bandaidApp
  */
-angular.module('bandaidApp')
+app.controller('mainCtrl', function ($scope, $rootScope,$sessionStorage) {
 
-  .controller('mainCtrl', function ($scope) {
+      $scope.$storage = $sessionStorage;
+      $scope.user = $scope.$storage.user;
+
 
   });
