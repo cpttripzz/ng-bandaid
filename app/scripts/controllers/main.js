@@ -11,9 +11,13 @@ app.controller('mainCtrl', function ($scope, $rootScope,$sessionStorage) {
 
       $scope.$storage = $sessionStorage;
       if( typeof $scope.$storage.user != 'undefined'){
-        $scope.email = $scope.$storage.user.email;
+        $scope.user = {
+          email: $scope.$storage.user.email
+          };
       } else {
-        $scope.email = '';
+        $scope.user = {
+          email: ''
+        };
       }
 
 

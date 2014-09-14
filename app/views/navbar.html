@@ -19,7 +19,7 @@
         </a>
         <ul class="menu_level_1 dropdown-menu">
           <li icon="fa fa-sign-in" class="active first last">
-            <a ng-click="launch('login')">
+            <a ng-click="doLogin()">
               <i class="fa fa-sign-in"></i>
               Login </a>
           </li>
@@ -29,7 +29,7 @@
     <ul class="nav pull-right" ng-if="email">
       <li  icon="icon-user" class="first last dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="icon-user"></i>
-        Hi {{email}} <b class="caret"></b> </a>
+        Hi <span id="span-email"> {{email}}</span>  <b class="caret"></b> </a>
         <ul class="menu_level_1 dropdown-menu">
           <li icon="icon-edit" class="first">
             <a href="/user">
@@ -39,7 +39,7 @@
             <a href="/message"><span id="new_messages_badge" class="badge">0 Messages</span></a>
           </li>
           <li icon="fa fa-sign-out" class="last">
-            <a ng-click="logout()"><i class="fa fa-sign-out">Logout</i></a>
+            <a ng-click="doLogout()"><i class="fa fa-sign-out">Logout</i></a>
           </li>
         </ul>
       </li>

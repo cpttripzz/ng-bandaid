@@ -31,7 +31,7 @@
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="mainCtrl">
       <div class="header" ng-controller="dialogCtrl">
-       <navbar email={{email}}></navbar>
+       <navbar email="user.email" on-login="launch('login')" on-logout="logout()" />
       </div>
     </div>
 

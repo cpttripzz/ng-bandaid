@@ -12,7 +12,20 @@ angular.module('bandaidApp')
       templateUrl: '../../views/navbar.html',
       replace: 'true',
       restrict: 'E',
-      scope: false
+      scope: {
+        doLogin: '&onLogin',
+        doLogout: '&onLogout',
+        email: '='
+      },
+      link: function(scope, element, attrs, tabsCtrl) {
+        scope.$watch('email', function(newValue) {
+          console.log(newValue);
+        });
+        attrs.$observe("email", function (newValue) {
+          console.log(newValue);
+        });
+      }
 
-    };
-  });
+    }
+  })
+;
