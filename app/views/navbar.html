@@ -1,4 +1,4 @@
-<div id="navbar" class="navbar navbar-default" role="navigation">
+<div ng-model="user" id="navbar" class="navbar navbar-default" role="navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
       <li icon="fa fa-list" class="first">
@@ -27,7 +27,7 @@
       </li>
     </ul>
     <ul class="nav pull-right" ng-if="user">
-      <li icon="icon-user" class="first last dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <li  icon="icon-user" class="first last dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="icon-user"></i>
         Hi {{user.email}} <b class="caret"></b> </a>
         <ul class="menu_level_1 dropdown-menu">
@@ -39,7 +39,7 @@
             <a href="/message"><span id="new_messages_badge" class="badge">0 Messages</span></a>
           </li>
           <li icon="fa fa-sign-out" class="last">
-            <a ng-click="signOut()"><i class="fa fa-sign-out">Logout</i></a>
+            <a ng-click="signout()"><i class="fa fa-sign-out">Logout</i></a>
           </li>
         </ul>
       </li>

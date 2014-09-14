@@ -81,12 +81,13 @@ app
       $scope.$storage = $sessionStorage;
       $scope.$storage.user = user;
       $scope.user = user;
+
       $modalInstance.close();
     });
+
     $rootScope.$on('auth:logout-success', function(ev) {
       debugger;
       $scope.$storage = $sessionStorage;
-      delete  $scope.$storage.user;
     });
   })
 

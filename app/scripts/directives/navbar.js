@@ -10,13 +10,9 @@ angular.module('bandaidApp')
   .directive('navbar', function () {
     return {
       templateUrl: '../../views/navbar.html',
-      scope: false,
       replace: 'true',
       restrict: 'E',
-      link: function (scope, element, attrs) {
-        scope.$watch('user', function() {
-          console.log(scope.$storage);
-        });
-      }
+      scope: false
+
     };
   });
