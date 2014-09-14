@@ -80,8 +80,7 @@ app
     $rootScope.$on('auth:login-success', function(ev, user) {
       $scope.$storage = $sessionStorage;
       $scope.$storage.user = user;
-      $scope.user = user;
-
+      $scope.email = user.email;
       $modalInstance.close();
     });
 
