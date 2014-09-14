@@ -17,15 +17,15 @@ angular.module('bandaidApp')
         doLogout: '&onLogout',
         email: '='
       },
-      link: function(scope, element, attrs, tabsCtrl) {
-        scope.$watch('email', function(newValue) {
-          console.log(newValue);
+      link: function (scope,elem, attrs) {
+        var e = elem;
+        var a =attrs;
+        scope.$on('userLoggedIn', function(event,args){
+          scope.email = args.email;
         });
-        attrs.$observe("email", function (newValue) {
-          console.log(newValue);
+        scope.$on('userLoggedOut', function(event){
+            scope.email = false;
         });
       }
-
     }
-  })
-;
+  });

@@ -23,5 +23,6 @@ app.controller('dialogCtrl', function ($scope, $rootScope,dialogs,$sessionStorag
     $scope.$storage = $sessionStorage;
     delete $scope.$storage.user;
     delete $scope.user;
+    $rootScope.$broadcast('userLoggedOut');
   };
 });

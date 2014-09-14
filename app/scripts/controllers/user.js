@@ -80,8 +80,18 @@ app
     $rootScope.$on('auth:login-success', function(ev, user) {
       $scope.$storage = $sessionStorage;
       $scope.$storage.user = user;
-      $scope.email = user.email;
+      if( typeof $scope.$storage.user != 'undefined'){
+        $scope.user = {
+          email: $scope.$storage.user.email
+        };
+      } else {
+        $scope.user = {
+          email: ''
+        };
+      }
+
       $modalInstance.close();
+      $rootScope.$broadcast('userLoggedIn', user);
     });
 
     $rootScope.$on('auth:logout-success', function(ev) {
