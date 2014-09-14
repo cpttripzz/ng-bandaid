@@ -15,7 +15,7 @@ app.controller('dialogCtrl', function ($scope, $rootScope,dialogs,$sessionStorag
         dialogs.error();
         break;
       case 'login':
-        dialogs.create('dialogs/login.html', 'userDialogCtrl', {}, 'lg');
+        var dlg = dialogs.create('dialogs/login.html', 'userDialogCtrl', {}, 'lg');
         break;
     }
   }; // end launch

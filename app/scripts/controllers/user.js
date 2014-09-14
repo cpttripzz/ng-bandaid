@@ -7,9 +7,7 @@
  * # dialogCtrl
  * Controller of the bandaidApp
  */
-app
-
-  .config(function ($authProvider,APIConfigProvider) {
+app.config(function ($authProvider,APIConfigProvider) {
 
     // the following shows the default values. values passed to this method
     // will extend the defaults using angular.extend
@@ -19,7 +17,7 @@ app
       apiUrl: apiConfig.baseUri,
       tokenValidationPath: '/auth/validate_token',
       signOutUrl: apiConfig.logoutPath,
-      emailRegistrationPath: '/auth',
+      emailRegistrationPath: apiConfig.registrationPath,
       accountUpdatePath: '/auth',
       accountDeletePath: '/auth',
       confirmationSuccessUrl: window.location.href,
@@ -89,6 +87,10 @@ app
           email: ''
         };
       }
+
+      $rootScope.$on('auth:login-error', function(ev, reason) {
+        debugger;
+      });
 
       $modalInstance.close();
       $rootScope.$broadcast('userLoggedIn', user);
