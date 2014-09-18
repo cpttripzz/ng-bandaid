@@ -7,114 +7,40 @@
  * # dialogCtrl
  * Controller of the bandaidApp
  */
-app.config(function ($authProvider,APIConfigProvider) {
+app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance) {
 
-    // the following shows the default values. values passed to this method
-    // will extend the defaults using angular.extend
-    var apiConfig = APIConfigProvider.$get[0]();
-    apiConfig = apiConfig();
-    $authProvider.configure({
-      apiUrl: apiConfig.baseUri,
-      tokenValidationPath: '/auth/validate_token',
-      signOutUrl: apiConfig.logoutPath,
-      emailRegistrationPath: apiConfig.registrationPath,
-      accountUpdatePath: '/auth',
-      accountDeletePath: '/auth',
-      confirmationSuccessUrl: window.location.href,
-      passwordResetPath: '/auth/password',
-      passwordUpdatePath: '/auth/password',
-      passwordResetSuccessUrl: window.location.href,
-      emailSignInPath: apiConfig.loginPath,
-      storage: 'cookies',
-      proxyIf: function () {
-        return false;
-      },
-      proxyUrl: '/proxy',
-      authProviderPaths: {
-        github: '/auth/github',
-        facebook: '/auth/facebook',
-        google: '/auth/google'
-      },
-      tokenFormat: {
-        "access-token": "{{ token }}",
-        "token-type": "Bearer",
-        "client": "{{ clientId }}",
-        "expiry": "{{ expiry }}",
-        "uid": "{{ uid }}"
-      },
-      parseExpiry: function (headers) {
-        // convert from UTC ruby (seconds) to UTC js (milliseconds)
-        return (parseInt(headers['expiry']) * 1000) || null;
-      },
-      handleLoginResponse: function (response) {
-        return response.user;
-      },
-      handleAccountResponse: function (response) {
-        return response.data;
-      },
-      handleTokenValidationResponse: function (response) {
-        return response.data;
-      }
-    });
-  })
+  //-- Methods --//
 
-  .controller('userDialogCtrl', function ($scope, $rootScope,$modalInstance, $http,$auth,$sessionStorage) {
+  $scope.cancel = function () {
+    $modalInstance.dismiss('Canceled');
+  }; // end cancel
 
-    //-- Methods --//
+  $scope.save = function () {
 
-    $scope.cancel = function () {
-      $modalInstance.dismiss('Canceled');
-    }; // end cancel
+  }; // end save
 
-    $scope.save = function () {
+  $scope.hitEnter = function (evt) {
+    if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, ''))) {
+      $scope.save();
+    }
+  };
 
-    }; // end save
 
-    $scope.hitEnter = function (evt) {
-      if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, ''))) {
-        $scope.save();
-      }
-    };
-    $rootScope.$on('auth:login-success', function(ev, user) {
-      $scope.$storage = $sessionStorage;
-      $scope.$storage.user = user;
-      if( typeof $scope.$storage.user != 'undefined'){
-        $scope.user = {
-          email: $scope.$storage.user.email
-        };
-      } else {
-        $scope.user = {
-          email: ''
-        };
-      }
 
-      $rootScope.$on('auth:login-error', function(ev, reason) {
-        debugger;
-      });
+})
 
-      $modalInstance.close();
-      $rootScope.$broadcast('userLoggedIn', user);
-    });
-
-    $rootScope.$on('auth:logout-success', function(ev) {
-      debugger;
-      $scope.$storage = $sessionStorage;
-    });
-  })
-
-  .config(['$sceDelegateProvider','APIConfigProvider', function ($sceDelegateProvider, APIConfig) {
-    var apiConfig = APIConfig.$get[0]();
-    apiConfig = apiConfig();
-    $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri+'/user/*']);
+  .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
+    var apiConfig = commonServiceFactory.$get().getApiConfig();
+    $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
   }])
 
-  .config(['$httpProvider', 'getFormAsParamsProvider', function ($httpProvider, getFormAsParams) {
+  .config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
     // get callable from provider
-    var getFormAsParams = getFormAsParams.$get[0]();
+    var getFormAsParams = commonServiceFactory.$get().getFormAsParams();
     // Override $http service's default transformRequest
     $httpProvider.defaults.transformRequest = [function (data) {
       return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
@@ -123,8 +49,8 @@ app.config(function ($authProvider,APIConfigProvider) {
 
   .config(['dialogsProvider', function (dialogsProvider) {
     dialogsProvider.useBackdrop('static');
-    dialogsProvider.useEscClose(false);
-    dialogsProvider.useCopy(false);
+    dialogsProvider.useEscClose(true);
+    dialogsProvider.useCopy(true);
     dialogsProvider.setSize('sm');
   }])
 
