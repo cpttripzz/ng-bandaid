@@ -7,7 +7,7 @@
  * # dialogCtrl
  * Controller of the bandaidApp
  */
-app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, authService) {
+app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, UserService) {
 
     //-- Methods --//
 
@@ -26,7 +26,7 @@ app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, a
     };
     $scope.loginForm = {};
     $scope.submitLogin = function (loginForm) {
-        authService.login($scope.loginForm.email, $scope.loginForm.password).then(function () {
+        UserService.login($scope.loginForm.email, $scope.loginForm.password).then(function () {
             $modalInstance.close();
         },
            function (error) {
@@ -37,23 +37,6 @@ app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, a
 
 
 })
-
-    .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
-        var apiConfig = commonServiceFactory.$get().getApiConfig();
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
-    }])
-
-    .config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-        // get callable from provider
-        var getFormAsParams = commonServiceFactory.$get().getFormAsParams;
-        // Override $http service's default transformRequest
-        $httpProvider.defaults.transformRequest = [function (data) {
-            return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
-        }];
-    }])
 
     .config(['dialogsProvider', function (dialogsProvider) {
         dialogsProvider.useBackdrop('static');

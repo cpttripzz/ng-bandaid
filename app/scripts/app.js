@@ -9,23 +9,45 @@
  * Main module of the application.
  */
 var app = angular
-  .module('bandaidApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch',
-    'ui.bootstrap', 'dialogs.main',  'ngStorage','commonService'
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/main', {
-        templateUrl: 'views/main.html',
-        controller: 'mainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
-app.config(function ($logProvider) {
-  $logProvider.debugEnabled(true);
-});
+    .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
+        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService'
+    ])
+
+    .config(function ($routeProvider) {
+        $routeProvider
+            .when('/main', {
+                templateUrl: 'views/main.html',
+                controller: 'mainCtrl'
+            })
+            .when('/home', {
+                templateUrl: 'views/home.html',
+                controller: 'HomeCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    })
+    .config(function ($logProvider) {
+        $logProvider.debugEnabled(true);
+    })
+
+    .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
+        var apiConfig = commonServiceFactory.$get().getApiConfig();
+        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
+    }])
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push('TokenInterceptor');
+    })
+
+    .config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+        // get callable from provider
+        var getFormAsParams = commonServiceFactory.$get().getFormAsParams;
+        // Override $http service's default transformRequest
+        $httpProvider.defaults.transformRequest = [function (data) {
+            return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
+        }];
+    }]);
+
