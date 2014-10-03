@@ -9,12 +9,11 @@
  */
 app.controller('HomeCtrl', function ($scope,ApiService) {
     ApiService.getHomeItems().then(function (items) {
-            console.log(items);
+            $scope.items = items;
         },
         function (error) {
             console.log(error);
         }
     );
-
 
 });

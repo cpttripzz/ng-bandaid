@@ -21,9 +21,7 @@
       <link rel="stylesheet" href="styles/main.css">
   </head>
   <body ng-app="bandaidApp" >
-    <div data-ng-view="">
 
-    </div>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -34,7 +32,7 @@
        <navbar email="user.email" on-login="launch('login')" on-logout="logout()" />
       </div>
     </div>
-
+    <div data-ng-view=""></div>
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
