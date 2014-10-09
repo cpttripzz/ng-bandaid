@@ -18,7 +18,8 @@ angular.module('commonService', [])
                 'loginPath': '/user/login',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
-                'homePath': '/home'
+                'homePath': '/home',
+                'imgPath': '/web/img'
             };
         };
         factory.getFormAsParams = function (obj) {

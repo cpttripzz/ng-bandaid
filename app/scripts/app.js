@@ -34,6 +34,9 @@ var app = angular
     .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
         var apiConfig = commonServiceFactory.$get().getApiConfig();
         $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
+        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/users/*']);
+        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/genres/*']);
+
     }])
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('TokenInterceptor');
@@ -51,3 +54,7 @@ var app = angular
         }];
     }]);
 
+var options = {};
+options.api = {};
+options.api.baseUri = 'http://api.bandaid.com';
+options.api.imgPath = '/web/img';

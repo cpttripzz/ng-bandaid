@@ -46,7 +46,7 @@ app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, U
     }])
 
     .run(['$templateCache', function ($templateCache) {
-        $templateCache.put('dialogs/login.html', '' +
+        $templateCache.put('views/dialogs/login.html', '' +
         '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button> <h4 class="modal-title">Login</h4> </div> ' +
         '<div class="modal-body"> <form novalidate ng-submit="submitLogin(loginForm)"> ' +
         '<div class="form-group"  ng-class="{ \'has-error\' : loginForm.email.$invalid }"><label>Email</label>' +
