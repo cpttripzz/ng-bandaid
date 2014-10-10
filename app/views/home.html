@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="HomeCtrl">
   <div class="panel">
     <div class="row multi-columns-row">
       <h4>Bands Searching For Musicians:</h4>
@@ -38,11 +38,11 @@
                   class="btn btn-primary">Request Audition
               </button>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
+    <pager total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  items-per-page="itemsPerPage"></pager>
+
   </div>
 </div>

@@ -54,8 +54,14 @@ app.factory('AuthService', function () {
     .service('ApiService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope',
         function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope) {
             var apiConfig = commonServiceFactory.getApiConfig();
-            var url= apiConfig.baseUri + apiConfig.homePath;
-            this.getHomeItems = function () {
+            var url = apiConfig.baseUri + apiConfig.homePath;
+            this.getHomeItems = function (lastElement,direction) {
+                if(lastElement){
+                    url = apiConfig.baseUri + apiConfig.homePath+'?last_element=' + lastElement
+                    if(direction){
+                        url = apiConfig.baseUri + apiConfig.homePath+'?last_element=' + lastElement + '&page_direction='+direction;
+                    }
+                }
                 var deferred = $q.defer();
                 try {
                     var items = {};
