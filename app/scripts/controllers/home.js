@@ -33,8 +33,8 @@ app.controller('HomeCtrl', function ($scope, ApiService, commonServiceFactory) {
 
 
     $scope.pageChanged = function () {
-        var element,direction=null;
-        if ($scope.currentPage - $scope.lastPage < 0){
+        var element, direction = null;
+        if ($scope.currentPage - $scope.lastPage < 0) {
             element = $scope.firstElement;
             direction = 'back';
 
@@ -50,7 +50,7 @@ app.controller('HomeCtrl', function ($scope, ApiService, commonServiceFactory) {
                 $scope.lastPage = $scope.currentPage;
                 $scope.firstElement = items.data[objectKeys[0]]._id.$id;
                 $scope.lastElement = items.data[objectKeys[objectKeys.length - 1]]._id.$id;
-                console.log($scope.firstElement ,$scope.lastElement);
+                console.log($scope.firstElement, $scope.lastElement);
             },
             function (error) {
                 console.log(error);

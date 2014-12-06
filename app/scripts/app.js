@@ -23,6 +23,10 @@ var app = angular
                 templateUrl: 'views/home.html',
                 controller: 'HomeCtrl'
             })
+            .when('/band/:bandSlug', {
+                templateUrl: 'views/band.html',
+                controller: 'BandCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
