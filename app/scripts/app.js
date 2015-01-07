@@ -10,7 +10,7 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService'
+        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router'
     ])
 
     .config(function ($routeProvider) {

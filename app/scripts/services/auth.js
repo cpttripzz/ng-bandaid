@@ -10,7 +10,7 @@
 angular.module('AuthService', [])
 app.factory('AuthService', function () {
     var auth = {
-        isLogged: false
+        isAuthenticated: false
     }
 
     return auth;
@@ -86,16 +86,18 @@ app.factory('AuthService', function () {
             var urlBase = apiConfig.baseUri + apiConfig.loginPath;
             var user = {};
 
-            this.login = function (email, password) {
+            this.login = function (username, password) {
                 var deferred = $q.defer();
                 try {
                     $http.post(urlBase, {
-                        email: email,
-                        password: password
+                        username: username,
+                        password: password,
+                        userId: userId
                     }).then(function (result) {
                         user = {
-                            token: result.data.user.token,
-                            email: result.data.user.email
+                            token: result.data.token,
+                            username: result.data.username,
+                            userId: result.data.userId
                         };
                         $sessionStorage.user = user;
                         $rootScope.$broadcast('userLoggedIn', user);

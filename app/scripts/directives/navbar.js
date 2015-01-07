@@ -15,16 +15,16 @@ angular.module('bandaidApp')
       scope: {
         doLogin: '&onLogin',
         doLogout: '&onLogout',
-        email: '='
+        username: '='
       },
       link: function (scope,elem, attrs) {
         var e = elem;
         var a =attrs;
         scope.$on('userLoggedIn', function(event,args){
-          scope.email = args.email;
+          scope.username = args.username;
         });
         scope.$on('userLoggedOut', function(event){
-            scope.email = false;
+            scope.username = false;
         });
       }
     }

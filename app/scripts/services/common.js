@@ -14,8 +14,8 @@ angular.module('commonService', [])
         var factory = {};
         factory.getApiConfig = function () {
             return {
-                'baseUri': 'http://api.bandaid.com',
-                'loginPath': '/user/login',
+                'baseUri': 'http://bandaid-api.com/app_dev.php/api',
+                'loginPath': '/open/getToken',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
                 'homePath': '/home',

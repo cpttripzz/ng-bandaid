@@ -26,7 +26,7 @@ app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, U
     };
     $scope.loginForm = {};
     $scope.submitLogin = function (loginForm) {
-        UserService.login($scope.loginForm.email, $scope.loginForm.password).then(function () {
+        UserService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
             $modalInstance.close();
         },
            function (error) {
@@ -49,10 +49,10 @@ app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, U
         $templateCache.put('views/dialogs/login.html', '' +
         '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button> <h4 class="modal-title">Login</h4> </div> ' +
         '<div class="modal-body"> <form novalidate ng-submit="submitLogin(loginForm)"> ' +
-        '<div class="form-group"  ng-class="{ \'has-error\' : loginForm.email.$invalid }"><label>Email</label>' +
-        '   <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control"/> ' +
-        '   <p ng-show="loginForm.email.$invalid" class="help-block">Enter a valid email.</p>' +
-        '   <span class="help-block" ng-show="loginForm.email.$error.required">Required</span>' +
+        '<div class="form-group"  ng-class="{ \'has-error\' : loginForm.username.$invalid }"><label>username</label>' +
+        '   <input type="username" name="username" ng-model="loginForm.username" required="required" class="form-control"/> ' +
+        '   <p ng-show="loginForm.username.$invalid" class="help-block">Enter a valid username.</p>' +
+        '   <span class="help-block" ng-show="loginForm.username.$error.required">Required</span>' +
         '<div class="form-group"> <label>password</label> <input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/></div>' +
 
         '<button  ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary btn-lg">Sign in</button> ' +

@@ -11,7 +11,7 @@
         <a href="/band/"><i class="fa fa-group"/>Bands </a>
       </li>
     </ul>
-    <ul class="nav pull-right" ng-if="!email">
+    <ul class="nav pull-right" ng-if="!username">
       <li icon="icon-user" class="current_ancestor first last dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <i class="icon-user"></i>
@@ -26,10 +26,10 @@
         </ul>
       </li>
     </ul>
-    <ul class="nav pull-right" ng-if="email">
+    <ul class="nav pull-right" ng-if="username">
       <li  icon="icon-user" class="first last dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="icon-user"></i>
-        Hi <span id="span-email"> {{email}}</span>  <b class="caret"></b> </a>
+        Hi <span id="span-username"> {{username}}</span>  <b class="caret"></b> </a>
         <ul class="menu_level_1 dropdown-menu">
           <li icon="icon-edit" class="first">
             <a href="/user">
