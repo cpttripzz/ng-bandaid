@@ -15,6 +15,7 @@
                 <li class="association-project-name">{{ item.name }}</li>
 
                 <div class="text-left ">Genres:
+
                   <span class="genre" data-ng-repeat="genre in item.genres">
                       {{genre.name}}<img src="{{genreImgPath + '/' + genre.slug + '.jpg'}}" alt="" />
                     </span>

@@ -9,7 +9,7 @@
 angular.module('bandaidApp')
   .directive('navbar', function () {
     return {
-      templateUrl: '../../views/navbar.html',
+      templateUrl: '/scripts/directives/templates/navbar.html',
       replace: 'true',
       restrict: 'E',
       scope: {

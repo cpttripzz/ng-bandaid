@@ -10,7 +10,7 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router'
+        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router', 'restmod'
     ])
 
     .config(function ($routeProvider) {
@@ -31,6 +31,28 @@ var app = angular
                 redirectTo: '/'
             });
     })
+
+    .config(function($stateProvider,$httpProvider){
+        $stateProvider.state('home',{
+            url:'/',
+            templateUrl: 'views/home.html',
+            controller: 'HomeCtrl'
+        }).state('viewBand',{
+            url:'/bands/:id/view',
+            templateUrl:'views/band/view.html',
+            controller:'BandViewController'
+        }).state('newBand',{
+            url:'/bands/new',
+            templateUrl:'views/band/add.html',
+            controller:'BandCreateController'
+        }).state('editBand',{
+            url:'/bands/:id/edit',
+            templateUrl:'views/band/edit.html',
+            controller:'BandEditController'
+        });
+    }).run(function($state){
+        $state.go('home');
+    })
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     })
@@ -46,6 +68,7 @@ var app = angular
         $httpProvider.interceptors.push('TokenInterceptor');
     })
 
+
     .config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -57,8 +80,3 @@ var app = angular
             return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
         }];
     }]);
-
-var options = {};
-options.api = {};
-options.api.baseUri = 'http://api.bandaid.com';
-options.api.imgPath = '/web/img';

@@ -54,13 +54,11 @@ app.factory('AuthService', function () {
     .service('ApiService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope',
         function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope) {
             var apiConfig = commonServiceFactory.getApiConfig();
-            var url = apiConfig.baseUri + apiConfig.homePath;
-            this.getHomeItems = function (lastElement,direction) {
-                if(lastElement){
-                    url = apiConfig.baseUri + apiConfig.homePath+'?last_element=' + lastElement
-                    if(direction){
-                        url = apiConfig.baseUri + apiConfig.homePath+'?last_element=' + lastElement + '&page_direction='+direction;
-                    }
+
+            this.getHomeItems = function (nextPage) {
+                var url = apiConfig.baseUri + apiConfig.homePath;
+                if(nextPage!=='undefined') {
+                    url += '?page=' + nextPage;
                 }
                 var deferred = $q.defer();
                 try {
@@ -91,8 +89,8 @@ app.factory('AuthService', function () {
                 try {
                     $http.post(urlBase, {
                         username: username,
-                        password: password,
-                        userId: userId
+                        password: password
+
                     }).then(function (result) {
                         user = {
                             token: result.data.token,

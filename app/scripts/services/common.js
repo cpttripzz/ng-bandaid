@@ -14,12 +14,13 @@ angular.module('commonService', [])
         var factory = {};
         factory.getApiConfig = function () {
             return {
-                'baseUri': 'http://bandaid-api.com/app_dev.php/api',
-                'loginPath': '/open/getToken',
+                'baseUri': 'http://bandaid-api.com/app_dev.php',
+                'loginPath': '/api/open/getToken',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
-                'homePath': '/home',
-                'imgPath': '/web/img'
+                'homePath': '/api/open/homeitems/1',
+                'imgPath': 'http://bandaid-api.com/img',
+                'thumbPath' : 'http://bandaid.com/media/cache/thumb/img'
             };
         };
         factory.getFormAsParams = function (obj) {
