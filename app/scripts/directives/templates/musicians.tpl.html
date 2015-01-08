@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Musicians Associated With:</div>
+  <div class="panel-body">
+    <span  ng-repeat='musician in musicians'>
+    <p ></p>
+    <div class="panel ">
+      <div class="col-sm-4 col-md-4">
+        <div class="assoc-image">
+
+          <img src="{{getAssocSmallImgPath()}}" />
+
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-8 assoc-text">
+        <h3>{{musician.name}}</h3>
+
+        <p>{{musician.description}}</p>
+        <p></p>
+        <div class="text-left ">Genres:
+          <genres data="musician.genres"></genres>
+        </div>
+
+        <div class="float-left text-left">Locations:
+          <addresses data="musician.addresses"></addresses>
+        </div>
+      </div>
+      </div>
+    </span>
+  </div>
+  </div>
+

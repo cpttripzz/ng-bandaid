@@ -11,12 +11,14 @@ angular.module('bandaidApp')
     return {
         restrict: 'E',
         scope: { 'genres': '=data' },
-        templateUrl : "/scripts/directives/templates/genres.html",
-        link: function (scope, element, attrs) {
-            var apiConfig = commonServiceFactory.getApiConfig();
-            var thumbPath = apiConfig.thumbPath;
-            var genreImgPath = thumbPath + '/genres/';
-            scope.genreImgPath = genreImgPath;
+        templateUrl : "/scripts/directives/templates/genres.tpl.html",
+        controller: function($scope, $element, commonServiceFactory ){
+            $scope.getGenreImgPath = function() {
+                var apiConfig = commonServiceFactory.getApiConfig();
+                var thumbPath = apiConfig.thumbPath;
+                var genreImgPath = thumbPath + '/genres/';
+                return genreImgPath + this.genre.slug + ".jpg"
+            }
         }
     };
 }]);

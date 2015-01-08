@@ -12,15 +12,18 @@ angular.module('commonService', [])
 
     .factory('commonServiceFactory', function () {
         var factory = {};
+        var domain ='http://bandaid-api.com';
         factory.getApiConfig = function () {
             return {
-                'baseUri': 'http://bandaid-api.com/app_dev.php',
+                'domain': domain,
+                'baseUri': domain + '/app_dev.php',
                 'loginPath': '/api/open/getToken',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
                 'homePath': '/api/open/homeitems/1',
-                'imgPath': 'http://bandaid-api.com/img',
-                'thumbPath' : 'http://bandaid.com/media/cache/thumb/img'
+                'imgPath': domain + '/img',
+                'thumbPath' : domain + '/media/cache/thumb/img',
+                'assocSmallImgPath' : domain + '/media/cache/assoc/img/users/'
             };
         };
         factory.getFormAsParams = function (obj) {

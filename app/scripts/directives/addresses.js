@@ -16,15 +16,19 @@ angular.module('bandaidApp')
 
 
         },
-        templateUrl: "/scripts/directives/templates/addresses.html",
+        templateUrl: "/scripts/directives/templates/addresses.tpl.html",
         link: function (scope, element, attrs) {
-            var apiConfig = commonServiceFactory.getApiConfig();
-            var imgPath = apiConfig.imgPath;
-            var flagImgPath = imgPath + '/flags/';
-            scope.flagImgPath  = flagImgPath ;
+
 
         },
         controller: function($scope, $element, commonServiceFactory ){
+            $scope.getFlagImgPath = function() {
+                var apiConfig = commonServiceFactory.getApiConfig();
+                var imgPath = apiConfig.imgPath;
+                var flagImgPath = imgPath + '/flags/';
+
+                return flagImgPath + this.address.city.country.code.toLowerCase() + ".png"
+            }
             $scope.getAddressText = function() {
                 if(!$scope.showText){
                     return;
