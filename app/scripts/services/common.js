@@ -53,6 +53,31 @@ angular.module('commonService', [])
 
             return query.length ? query.substr(0, query.length - 1) : query;
         };
+        factory.getAddressText = function(obj) {
+            var regionName = '';
+            var countryName = '';
+            var cityName = '';
+            if(typeof obj.region !== 'undefined') {
+                if(typeof obj.region.longName !== 'undefined'){
+                    regionName = obj.region.longName;
+                } else if(typeof obj.region.shortName !== 'undefined'){
+                    regionName = obj.region.shortName;
+                }
+            }
+            if(typeof obj.city.country !== 'undefined'){
+                countryName = obj.city.country.name;
+            }
+
+            if(typeof obj.city !== 'undefined') {
+                cityName = obj.city.name;
+            }
+            if(regionName){
+                return cityName + ', ' + regionName + ', ' + countryName;
+            } else {
+                return cityName + ', ' + countryName;
+            }
+            return cityName + ', ' + regionName + ', ' + countryName;
+        }
         return factory;
     })
 

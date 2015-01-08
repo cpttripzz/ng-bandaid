@@ -1,3 +1,4 @@
-<span class='flas' ng-repeat='address in addresses'>
+<span class='flag' ng-repeat='address in addresses'>
+  <span ng-if="showText">{{getAddressText()}}</span>
   <span><img class='flag' src='{{flagImgPath + address.city.country.code.toLowerCase() + ".png"}} '/> </span>
 </span>

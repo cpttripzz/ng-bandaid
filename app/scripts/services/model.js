@@ -7,42 +7,19 @@
  * # UserService
  * Service in the bandaidApp.
  */
-angular.module('ModelService', [])
-    app.config('restmodProvider', function(restmodProvider) {
-        restmodProvider.rebase('DefaultPacker')
-            .rebase({
-                $config: {
-                    urlPrefix: 'http://bandaid-api.com/app_dev.php'
-                }
-            })
-            .rebase('AMSApi');
-    })
-        .factory('HomeItem', function(restmod) {
-            return restmod.model('api/open/homeitems/1').mix(
-                {
-                    bands: { hasMany: 'Band' }
-                }
-            );
-        })
-        .factory('Band', function(restmod) {
-            return restmod.model('api/open/band').mix(
-                {
-                    genres: { hasMany: 'Genre' },
-                    addresses: { hasMany: 'Address' },
-                    documents: { hasMany: 'Document' },
-                    musicians: { hasMany: 'Genre' }
-                }
-            );
+angular.module('modelService', [])
+    app.factory('Band', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var url = apiConfig.baseUri;
+        return $resource(url +'/api/open/bands/:slug/',{},{
+            getMethod:{
+                method:'GET'
+            },
+            postMethod:{
+                url:url + '/secure/band/:id',
+                params: {id: '@id'},
+                method:'POST',
+                isArray:false
+            }
         });
-
-
-/**
- export default DS.Model.extend({
-    genres: DS.hasMany('genres'),
-    addresses: DS.hasMany('addresses'),
-    documents: DS.hasMany('documents'),
-    musicians: DS.hasMany('musicians'),
-    useritems: DS.belongsTo('useritem'),
-
-});
- */
+    }]);

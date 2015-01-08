@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name bandaidApp.controller:HomeCtrl
+ * @name bandaidApp.controller:HomeController
  * @description
- * # HomeCtrl
+ * # HomeController
  * Controller of the bandaidApp
  */
-app.controller('HomeCtrl', function ($scope, ApiService, commonServiceFactory) {
+app.controller('HomeController', function ($scope, ApiService, commonServiceFactory) {
     var apiConfig = commonServiceFactory.getApiConfig();
     var imgPath = apiConfig.imgPath;
     var thumbPath = apiConfig.thumbPath;

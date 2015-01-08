@@ -8,13 +8,13 @@
  * Service in the bandaidApp.
  */
 angular.module('AuthService', [])
-app.factory('AuthService', function () {
-    var auth = {
-        isAuthenticated: false
-    }
+    app.factory('AuthService', function () {
+        var auth = {
+            isAuthenticated: false
+        }
 
-    return auth;
-})
+        return auth;
+    })
     .factory('TokenInterceptor', function ($q, $sessionStorage, $location, AuthService) {
         return {
             request: function (config) {
@@ -50,14 +50,13 @@ app.factory('AuthService', function () {
         };
     })
 
-
     .service('ApiService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope',
         function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope) {
             var apiConfig = commonServiceFactory.getApiConfig();
 
             this.getHomeItems = function (nextPage) {
                 var url = apiConfig.baseUri + apiConfig.homePath;
-                if(nextPage!=='undefined') {
+                if (nextPage !== 'undefined') {
                     url += '?page=' + nextPage;
                 }
                 var deferred = $q.defer();

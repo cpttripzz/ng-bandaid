@@ -10,35 +10,18 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router', 'restmod'
+        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router', 'modelService'
     ])
 
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/main', {
-                templateUrl: 'views/main.html',
-                controller: 'mainCtrl'
-            })
-            .when('/home', {
-                templateUrl: 'views/home.html',
-                controller: 'HomeCtrl'
-            })
-            .when('/band/:bandSlug', {
-                templateUrl: 'views/band.html',
-                controller: 'BandCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    })
+
 
     .config(function($stateProvider,$httpProvider){
         $stateProvider.state('home',{
             url:'/',
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl'
+            controller: 'HomeController'
         }).state('viewBand',{
-            url:'/bands/:id/view',
+            url:'/bands/:slug/view',
             templateUrl:'views/band/view.html',
             controller:'BandViewController'
         }).state('newBand',{
