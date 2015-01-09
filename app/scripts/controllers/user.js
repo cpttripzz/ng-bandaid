@@ -4,57 +4,39 @@
  * @ngdoc function
  * @name bandaidApp.controller:userCtrl
  * @description
- * # dialogCtrl
+ * # DialogController
  * Controller of the bandaidApp
  */
-app.controller('userDialogCtrl', function ($scope, $rootScope, $modalInstance, UserService) {
+app
+    .controller('UserItemController', function ($scope, $stateParams, UserItem) {
+        $scope.userItems = {};
+        UserItem.get().$promise.then(function (userItems) {
+            $scope.userItems = userItems.bands;
+        });
 
-    //-- Methods --//
+    })
+    .controller('LoginController', function ($scope, $rootScope, ngDialog, UserService) {
+        ngDialog.open({
+            template: 'views/dialogs/login.html',
+            controller: 'UserDialogController'
+        });
+    })
+    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, UserService,$state) {
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('Canceled');
-    }; // end cancel
 
-    $scope.save = function () {
-
-    }; // end save
-
-    $scope.hitEnter = function (evt) {
-        if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, ''))) {
-            $scope.save();
+        $scope.loginForm = {};
+        $scope.submitLogin = function (loginForm) {
+            UserService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
+                    ngDialog.close();
+                    $state.go('user.userItems');
+                },
+                function (error) {
+                    $scope.loginForm.errors = error.data.reasons;
+                }
+            );
         }
-    };
-    $scope.loginForm = {};
-    $scope.submitLogin = function (loginForm) {
-        UserService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
-            $modalInstance.close();
-        },
-           function (error) {
-               $scope.loginForm.errors = error.data.reasons;
-            }
-        );
-    }
 
 
-})
+    })
 
-    .config(['dialogsProvider', function (dialogsProvider) {
-        dialogsProvider.useBackdrop('static');
-        dialogsProvider.useEscClose(true);
-        dialogsProvider.useCopy(true);
-        dialogsProvider.setSize('sm');
-    }])
-
-    .run(['$templateCache', function ($templateCache) {
-        $templateCache.put('views/dialogs/login.html', '' +
-        '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button> <h4 class="modal-title">Login</h4> </div> ' +
-        '<div class="modal-body"> <form novalidate ng-submit="submitLogin(loginForm)"> ' +
-        '<div class="form-group"  ng-class="{ \'has-error\' : loginForm.username.$invalid }"><label>username</label>' +
-        '   <input type="username" name="username" ng-model="loginForm.username" required="required" class="form-control"/> ' +
-        '   <p ng-show="loginForm.username.$invalid" class="help-block">Enter a valid username.</p>' +
-        '   <span class="help-block" ng-show="loginForm.username.$error.required">Required</span>' +
-        '<div class="form-group"> <label>password</label> <input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/></div>' +
-
-        '<button  ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary btn-lg">Sign in</button> ' +
-        '<div ng-model="loginForm.errors">{{loginForm.errors}}</div></form>  </div> ');
-    }]);
+    ;

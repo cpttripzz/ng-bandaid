@@ -10,30 +10,58 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'dialogs.main', 'ngStorage', 'commonService','AuthService','ui.router', 'modelService'
+        'ui.bootstrap', 'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService'
     ])
 
 
+    .config(function ($stateProvider, $httpProvider) {
+        var access = routingConfig.accessLevels;
 
-    .config(function($stateProvider,$httpProvider){
-        $stateProvider.state('home',{
-            url:'/',
-            templateUrl: 'views/home.html',
-            controller: 'HomeController'
-        }).state('viewBand',{
-            url:'/bands/:slug/view',
-            templateUrl:'views/band/view.html',
-            controller:'BandViewController'
-        }).state('newBand',{
-            url:'/bands/new',
-            templateUrl:'views/band/add.html',
-            controller:'BandCreateController'
-        }).state('editBand',{
-            url:'/bands/:id/edit',
-            templateUrl:'views/band/edit.html',
-            controller:'BandEditController'
-        });
-    }).run(function($state){
+        $stateProvider
+            .state('anon', {
+                abstract: true,
+                template: "<ui-view/>",
+                data: {
+                    access: access.anon
+                }
+            })
+            .state('anon.login', {
+                url: '/login',
+                controller: 'LoginController'
+            })
+            .state('home', {
+                url: '/',
+                templateUrl: 'views/home.html',
+                controller: 'HomeController'
+            }).state('viewBand', {
+                url: '/bands/:slug/view',
+                templateUrl: 'views/band/view.html',
+                controller: 'BandViewController'
+            });
+        $stateProvider
+            .state('user', {
+                abstract: true,
+                template: "<ui-view/>",
+                data: {
+                    access: access.user
+                }
+            })
+            .state('user.userItems', {
+                url: '/user/items',
+                templateUrl: 'views/user-items.html',
+                controller: 'UserItemController'
+            })
+            .state('newBand', {
+                url: '/bands/new',
+                templateUrl: 'views/band/add.html',
+                controller: 'BandCreateController'
+            })
+            .state('editBand', {
+                url: '/bands/:id/edit',
+                templateUrl: 'views/band/edit.html',
+                controller: 'BandEditController'
+            });
+    }).run(function ($state) {
         $state.go('home');
     })
     .config(function ($logProvider) {
@@ -63,3 +91,15 @@ var app = angular
             return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
         }];
     }]);
+    //
+    //.run(['$rootScope', '$state', 'AuthService', function ($rootScope, $state, AuthService) {
+    //
+    //    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    //        debugger;
+    //        if (!AuthService.isAuthenticated && toState.data.access.bitMask !== 6) {
+    //            $state.go('anon.login');
+    //        }
+    //    });
+    //
+    //}]);
+

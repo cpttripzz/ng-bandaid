@@ -19,7 +19,7 @@
         </a>
         <ul class="menu_level_1 dropdown-menu">
           <li icon="fa fa-sign-in" class="active first last">
-            <a ng-click="doLogin()">
+            <a ui-sref="anon.login">
               <i class="fa fa-sign-in"></i>
               Login </a>
           </li>
@@ -32,7 +32,7 @@
         Hi <span id="span-username"> {{username}}</span>  <b class="caret"></b> </a>
         <ul class="menu_level_1 dropdown-menu">
           <li icon="icon-edit" class="first">
-            <a href="/user">
+            <a  ui-sref="user.userItems">
               <i class="icon-edit">Edit profile</i></a>
           </li>
           <li badge="0" id="new_messages">

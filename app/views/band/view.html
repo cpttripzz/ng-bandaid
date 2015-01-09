@@ -1,15 +1,7 @@
-<div class="container" ng-controller="BandViewController">
+<div class="container" ng-controller="BandEditController">
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <div class="text-left ">Genres:
-      <genres data="band.genres"></genres>
-    </div>
 
-    <div class="float-left text-left">Locations:
-      <addresses  show-text=true data="band.addresses"></addresses>
-    </div>
-    <p></p><p></p>
-    <br>
     <p>Description: {{band.description}}</p>
 
     <musicians data="band.musicians"></musicians>

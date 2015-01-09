@@ -2,23 +2,14 @@
 
 /**
  * @ngdoc function
- * @name bandaidApp.controller:DialogCtrl
+ * @name bandaidApp.controller:DialogController
  * @description
- * # DialogCtrl
+ * # DialogController
  * Controller of the bandaidApp
  */
 
-app.controller('dialogCtrl', function ($scope, $rootScope,dialogs,$sessionStorage) {
-  $scope.launch = function (which) {
-    switch (which) {
-      case 'error':
-        dialogs.error();
-        break;
-      case 'login':
-        var dlg = dialogs.create('views/dialogs/login.html', 'userDialogCtrl', {}, 'lg');
-        break;
-    }
-  }; // end launch
+app.controller('DialogController', function ($scope, $rootScope,$sessionStorage) {
+
   $scope.logout = function () {
     $scope.$storage = $sessionStorage;
     delete $scope.$storage.user;

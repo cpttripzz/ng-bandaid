@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: DialogCtrl', function () {
+describe('Controller: DialogController', function () {
 
   // load the controller's module
   beforeEach(module('bandaidApp'));
 
-  var DialogCtrl,
+  var DialogController,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    DialogCtrl = $controller('DialogCtrl', {
+    DialogController = $controller('DialogController', {
       $scope: scope
     });
   }));

@@ -42,7 +42,7 @@ angular.module('AuthService', [])
                 if (rejection != null && rejection.status === 401 && ($sessionStorage.usertoken || AuthService.isAuthenticated)) {
                     delete $sessionStorage.user.token;
                     AuthService.isAuthenticated = false;
-                    $location.path("/admin/login");
+                    $location.path("/");
                 }
 
                 return $q.reject(rejection);
@@ -56,7 +56,7 @@ angular.module('AuthService', [])
 
             this.getHomeItems = function (nextPage) {
                 var url = apiConfig.baseUri + apiConfig.homePath;
-                if (nextPage !== 'undefined') {
+                if (typeof nextPage !== 'undefined') {
                     url += '?page=' + nextPage;
                 }
                 var deferred = $q.defer();

@@ -1,13 +1,19 @@
-<div>
-	<div class="modal-header">
-		<button type="button" class="close pull-right" ng-click="$dismiss()" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">Modal title</h4>
-	</div>
-	<div class="modal-body">
-		<p>Body&hellip;</p>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
-		<button type="button" class="btn btn-primary">Save changes</button>
-	</div>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">×</button>
+  <h4 class="modal-title">Login</h4></div>
+<div class="modal-body">
+  <form novalidate ng-submit="submitLogin(loginForm)">
+    <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid }"><label>username</label>
+			<input type="username" name="username" ng-model="loginForm.username" required="required" class="form-control"/>
+
+      <p ng-show="loginForm.username.$invalid" class="help-block">Enter a valid username.</p>
+      <span class="help-block" ng-show="loginForm.username.$error.required">Required</span>
+
+      <div class="form-group"><label>password</label>
+				<input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/>
+			</div>
+      <button ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary btn-lg">Sign in</button>
+      <div ng-model="loginForm.errors">{{loginForm.errors}}</div>
+    </div>
+  </form>
 </div>
