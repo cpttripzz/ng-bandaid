@@ -16,6 +16,11 @@ angular.module('ModelService', [])
             getMethod:{
                 method:'GET'
             },
+            getById:{
+                method:'GET',
+                url: url +'/api/open/bands/:id/',
+                params: {id: '@id'}
+            },
             postMethod:{
                 url:url + '/secure/band/:id',
                 params: {id: '@id'},

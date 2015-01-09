@@ -57,7 +57,7 @@ var app = angular
                 controller: 'BandCreateController'
             })
             .state('editBand', {
-                url: '/bands/:id/edit',
+                url: '/bands/:slug/edit',
                 templateUrl: 'views/band/edit.html',
                 controller: 'BandEditController'
             });
