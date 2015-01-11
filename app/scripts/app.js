@@ -10,7 +10,7 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService'
+        'ui.bootstrap', 'multi-select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService'
     ])
 
 
@@ -71,6 +71,8 @@ var app = angular
     .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
         var apiConfig = commonServiceFactory.$get().getApiConfig();
         $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
+        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/band/*']);
+        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/api/secure/*']);
         $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/users/*']);
         $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/genres/*']);
 
@@ -79,18 +81,18 @@ var app = angular
         $httpProvider.interceptors.push('TokenInterceptor');
     })
 
-
-    .config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-        // get callable from provider
-        var getFormAsParams = commonServiceFactory.$get().getFormAsParams;
-        // Override $http service's default transformRequest
-        $httpProvider.defaults.transformRequest = [function (data) {
-            return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
-        }];
-    }]);
+    //
+    //.config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
+    //    $httpProvider.defaults.useXDomain = true;
+    //    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    //    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    //    // get callable from provider
+    //    var getFormAsParams = commonServiceFactory.$get().getFormAsParams;
+    //    // Override $http service's default transformRequest
+    //    $httpProvider.defaults.transformRequest = [function (data) {
+    //        return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
+    //    }];
+    //}]);
     //
     //.run(['$rootScope', '$state', 'AuthService', function ($rootScope, $state, AuthService) {
     //
@@ -103,3 +105,4 @@ var app = angular
     //
     //}]);
 
+;

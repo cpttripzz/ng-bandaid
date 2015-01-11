@@ -22,10 +22,15 @@ angular.module('ModelService', [])
                 params: {id: '@id'}
             },
             postMethod:{
-                url:url + '/secure/band/:id',
+                url:url + '/api/secure/band/:id',
                 params: {id: '@id'},
                 method:'POST',
                 isArray:false
+            },
+            'updateMethod': {
+                method:'PUT',
+                url:url + '/api/secure/band/:id',
+                params: {id: '@id'}
             }
         });
     }])

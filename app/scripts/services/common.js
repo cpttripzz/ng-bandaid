@@ -56,6 +56,18 @@ angular.module('commonService', [])
 
             return query.length ? query.substr(0, query.length - 1) : query;
         };
+        factory.findArrayIndexWithAttr =function (array, attr, value) {
+            for(var i = 0; i < array.length; i += 1) {
+                if(array[i][attr] === value) {
+                    return i;
+                }
+            }
+            return false;
+        };
+
+
+
+
         factory.getAddressText = function(obj) {
             var regionName = '';
             var countryName = '';
