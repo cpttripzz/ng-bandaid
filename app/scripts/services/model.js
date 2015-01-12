@@ -27,7 +27,7 @@ angular.module('ModelService', [])
                 method:'POST',
                 isArray:false
             },
-            'updateMethod': {
+            'update': {
                 method:'PUT',
                 url:url + '/api/secure/band/:id',
                 params: {id: '@id'}

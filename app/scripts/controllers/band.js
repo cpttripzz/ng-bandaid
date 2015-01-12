@@ -16,19 +16,13 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var thumbPath = apiConfig.thumbPath;
         $scope.genreImgPath = thumbPath + '/genres/';
-        $scope.availableGenres = $scope.genres;
+        $scope.availableGenres = genres;
         $scope.band = band;
         $scope.updateBand = function () {
             var id = $scope.band.id;
 
-            $scope.band.$update().then(function () {
+            band.$update({ id:id }, $scope.band);
 
-                $state.go('user.userItems');
-                // success !!
-            })
-                .catch(function (x) {
-                    // error !!
-                });
        }
     })
 ;

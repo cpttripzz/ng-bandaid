@@ -73,8 +73,12 @@ var app = angular
                         return bandResource.get({slug: $stateParams.slug}).$promise;
                     },
                     cacheService: 'cacheService',
-                    genres: function(cacheService){
-                        return cacheService.getStaticData('genres');
+                    genres: function(cacheService,$q){
+                        var deferred = $q.defer();
+                        cacheService.getStaticData('genres').then(function(data){
+                            deferred.resolve(data);
+                        });
+                        return deferred.promise;
                     }
 
                 }

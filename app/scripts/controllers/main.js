@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the bandaidApp
  */
-app.controller('mainCtrl', function ($scope, $rootScope, $sessionStorage,cacheService) {
+app.controller('mainController', function ($scope, $rootScope, $sessionStorage,cacheService) {
     cacheService.getStaticData('genres').then(function (data) {
         $scope.genres = data;
     });
@@ -23,5 +23,9 @@ app.controller('mainCtrl', function ($scope, $rootScope, $sessionStorage,cacheSe
         };
     }
 
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+
+
+    });
 
 });

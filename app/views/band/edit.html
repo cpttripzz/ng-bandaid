@@ -16,13 +16,13 @@
   <div class="form-group">
     <label for="genre" class="col-sm-2 control-label">Genre</label>
     <div class="col-sm-10">
-      <ui-select id="genre" multiple ng-model="band.genres" theme="select2" style="width: 800px;">
+      <ui-select id="genre" multiple ng-model="band.genres" theme="select2"  ng-disabled="disabled" style="width: 800px;">
         <ui-select-match placeholder="Select Genre...">{{$item.name}}</ui-select-match>
         <ui-select-choices repeat="genre in availableGenres   | propsFilter: {name: $select.search}">
           <span ng-bind-html="genre.name | highlight: $select.search"></span><img src="{{genreImgPath + genre.slug + '.jpg'}}" />
         </ui-select-choices>
       </ui-select>
-      <p>Selected: {{band.genres}}</p>
+
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
