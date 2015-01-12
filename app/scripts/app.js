@@ -10,7 +10,8 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'multi-select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService'
+        'ui.bootstrap', 'ui.select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
+        'angular-data.DSCacheFactory'
     ])
 
 
@@ -36,7 +37,13 @@ var app = angular
             }).state('viewBand', {
                 url: '/bands/:slug/view',
                 templateUrl: 'views/band/view.html',
-                controller: 'BandViewController'
+                controller: 'BandViewController',
+                resolve: {
+                    bandResource: 'bandResource',
+                    band: function (bandResource, $stateParams) {
+                        return bandResource.get({slug: $stateParams.slug}).$promise;
+                    }
+                }
             });
         $stateProvider
             .state('user', {
@@ -59,7 +66,18 @@ var app = angular
             .state('editBand', {
                 url: '/bands/:slug/edit',
                 templateUrl: 'views/band/edit.html',
-                controller: 'BandEditController'
+                controller: 'BandEditController',
+                resolve: {
+                    bandResource: 'bandResource',
+                    band: function (bandResource, $stateParams) {
+                        return bandResource.get({slug: $stateParams.slug}).$promise;
+                    },
+                    cacheService: 'cacheService',
+                    genres: function(cacheService){
+                        return cacheService.getStaticData('genres');
+                    }
+
+                }
             });
     }).run(function ($state) {
         $state.go('home');

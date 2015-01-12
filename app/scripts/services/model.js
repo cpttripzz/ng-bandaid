@@ -9,7 +9,7 @@
  */
 angular.module('ModelService', [])
 
-    app.factory('Band', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+    .factory('bandResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/open/bands/:slug/',{},{

@@ -6,8 +6,7 @@
  * @description
  * # header
  */
-angular.module('bandaidApp')
-.directive('addresses', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('addresses', ['commonServiceFactory', function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: {

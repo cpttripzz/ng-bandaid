@@ -21,14 +21,22 @@ app
             controller: 'UserDialogController'
         });
     })
-    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, UserService,$state) {
+    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, UserService) {
 
+        $scope.cancel = function () {
+            ngDialog.close();
+        }; // end cancel
+
+        $scope.hitEnter = function (evt) {
+            if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.username, null) || angular.equals($scope.username, ''))) {
+                $scope.save();
+            }
+        };
 
         $scope.loginForm = {};
         $scope.submitLogin = function (loginForm) {
             UserService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
                     ngDialog.close();
-                    $state.go('user.userItems');
                 },
                 function (error) {
                     $scope.loginForm.errors = error.data.reasons;

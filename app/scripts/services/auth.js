@@ -8,7 +8,7 @@
  * Service in the bandaidApp.
  */
 angular.module('AuthService', [])
-    app.factory('AuthService', function () {
+    .factory('AuthService', function () {
         var auth = {
             isAuthenticated: false
         }

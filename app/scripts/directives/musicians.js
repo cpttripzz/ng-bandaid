@@ -6,8 +6,7 @@
  * @description
  * # header
  */
-angular.module('bandaidApp')
-.directive('musicians', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('musicians', ['commonServiceFactory', function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: { 'musicians': '=data' },

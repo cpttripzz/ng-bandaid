@@ -6,8 +6,7 @@
  * @description
  * # header
  */
-angular.module('bandaidApp')
-.directive('genres', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('genres', ['commonServiceFactory', function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: { 'genres': '=data' },

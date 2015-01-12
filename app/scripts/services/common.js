@@ -13,49 +13,25 @@ angular.module('commonService', [])
     .factory('commonServiceFactory', function () {
         var factory = {};
         var domain ='http://bandaid-api.com';
+        var script = 'app_dev.php';
+        var baseUri = domain + '/' + script;
         factory.getApiConfig = function () {
             return {
                 'domain': domain,
-                'baseUri': domain + '/app_dev.php',
+                'baseUri': baseUri,
                 'loginPath': '/api/open/getToken',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
                 'homePath': '/api/open/homeitems/1',
                 'imgPath': domain + '/img',
                 'thumbPath' : domain + '/media/cache/thumb/img',
-                'assocSmallImgPath' : domain + '/media/cache/assoc/img/users/'
+                'assocSmallImgPath' : domain + '/media/cache/assoc/img/users/',
+                'staticData' : {
+                    'genres' : baseUri + '/api/open/genres'
+                }
             };
         };
-        factory.getFormAsParams = function (obj) {
-            var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
 
-            for (name in obj) {
-                value = obj[name];
-
-                if (value instanceof Array) {
-                    for (i = 0; i < value.length; ++i) {
-                        subValue = value[i];
-                        fullSubName = name + '[' + i + ']';
-                        innerObj = {};
-                        innerObj[fullSubName] = subValue;
-                        query += param(innerObj) + '&';
-                    }
-                }
-                else if (value instanceof Object) {
-                    for (subName in value) {
-                        subValue = value[subName];
-                        fullSubName = name + '[' + subName + ']';
-                        innerObj = {};
-                        innerObj[fullSubName] = subValue;
-                        query += param(innerObj) + '&';
-                    }
-                }
-                else if (value !== undefined && value !== null)
-                    query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-            }
-
-            return query.length ? query.substr(0, query.length - 1) : query;
-        };
         factory.findArrayIndexWithAttr =function (array, attr, value) {
             for(var i = 0; i < array.length; i += 1) {
                 if(array[i][attr] === value) {

@@ -6,8 +6,7 @@
  * @description
  * # header
  */
-angular.module('bandaidApp')
-  .directive('navbar', function () {
+app.directive('navbar', function () {
     return {
       templateUrl: '/scripts/directives/templates/navbar.html',
       replace: 'true',
