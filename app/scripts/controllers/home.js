@@ -20,7 +20,7 @@ app.controller('HomeController', function ($scope, ApiService, commonServiceFact
     $scope.itemsPerPage = 16;
     ApiService.getHomeItems().then(function (items) {
             $scope.items = items.bands;
-            $scope.totalItems = items.meta.total;
+            $scope.totalItems = items.length;
         },
         function (error) {
             console.log(error);

@@ -11,9 +11,16 @@ app.directive('navbar', function () {
       templateUrl: '/scripts/directives/templates/navbar.html',
       replace: 'true',
       restrict: 'E',
+      controller: function($scope, $sessionStorage, $rootScope){
+        $scope.logout = function () {
+          $scope.$storage = $sessionStorage;
+          delete $scope.$storage.user;
+          delete $scope.user;
+          $rootScope.$broadcast('userLoggedOut');
+        };
+      },
       scope: {
-        doLogin: '&onLogin',
-        doLogout: '&onLogout',
+        logout: '&',
         username: '='
       },
       link: function (scope,elem, attrs) {

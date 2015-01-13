@@ -40,7 +40,7 @@ angular.module('AuthService', [])
             /* Revoke client authentication if 401 is received */
             responseError: function (rejection) {
                 if (rejection != null && rejection.status === 401 && ($sessionStorage.usertoken || AuthService.isAuthenticated)) {
-                    delete $sessionStorage.user.token;
+                    delete $sessionStorage.user;
                     AuthService.isAuthenticated = false;
                     $location.path("/");
                 }
@@ -77,8 +77,8 @@ angular.module('AuthService', [])
 
         }])
 
-    .service('UserService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope',
-        function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope) {
+    .service('UserService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope','authService',
+        function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope,authService) {
             var apiConfig = commonServiceFactory.getApiConfig();
             var urlBase = apiConfig.baseUri + apiConfig.loginPath;
             var user = {};
@@ -97,6 +97,10 @@ angular.module('AuthService', [])
                             userId: result.data.userId
                         };
                         $sessionStorage.user = user;
+                        authService.loginConfirmed('success', function(config){
+                            config.ignoreAuthModule = false;
+                            return config;
+                        });
                         $rootScope.$broadcast('userLoggedIn', user);
                         deferred.resolve(user);
                     }, function (error) {
@@ -106,6 +110,9 @@ angular.module('AuthService', [])
                     deferred.reject(e);
                 }
                 return deferred.promise;
+            };
+            this.isLoggedIn = function(){
+                return (typeof $sessionStorage.user !== 'undefined');
             }
 
         }

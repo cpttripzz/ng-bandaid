@@ -11,7 +11,7 @@
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
         'ui.bootstrap', 'ui.select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
-        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect'
+        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor'
     ])
 
 
@@ -30,11 +30,11 @@ var app = angular
                 url: '/login',
                 controller: 'LoginController'
             })
-            .state('home', {
+            .state('anon.home', {
                 url: '/',
                 templateUrl: 'views/home.html',
                 controller: 'HomeController'
-            }).state('viewBand', {
+            }).state('anon.viewBand', {
                 url: '/bands/:slug/view',
                 templateUrl: 'views/band/view.html',
                 controller: 'BandViewController',
@@ -58,12 +58,12 @@ var app = angular
                 templateUrl: 'views/user-items.html',
                 controller: 'UserItemController'
             })
-            .state('newBand', {
+            .state('user.newBand', {
                 url: '/bands/new',
                 templateUrl: 'views/band/add.html',
                 controller: 'BandCreateController'
             })
-            .state('editBand', {
+            .state('user.editBand', {
                 url: '/bands/:slug/edit',
                 templateUrl: 'views/band/edit.html',
                 controller: 'BandEditController',
@@ -84,7 +84,7 @@ var app = angular
                 }
             });
     }).run(function ($state) {
-        $state.go('home');
+        $state.go('anon.home');
     })
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
@@ -116,15 +116,23 @@ var app = angular
     //    }];
     //}]);
     //
-    //.run(['$rootScope', '$state', 'AuthService', function ($rootScope, $state, AuthService) {
-    //
-    //    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-    //        debugger;
-    //        if (!AuthService.isAuthenticated && toState.data.access.bitMask !== 6) {
-    //            $state.go('anon.login');
-    //        }
-    //    });
-    //
-    //}]);
+    .run(['$rootScope', '$state', 'UserService', function ($rootScope, $state, UserService) {
+
+        $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+            console.log(UserService.isLoggedIn(),toState.data.access.bitMask);
+            if ( ! UserService.isLoggedIn() && toState.data.access.bitMask > 6) {
+
+                $state.go('anon.login');
+            }
+        });
+        $rootScope.$on("userLoggedOut", function (event, toState, toParams, fromState, fromParams) {
+            $state.go('anon.home');
+        });
+        $rootScope.$on("event:auth-loginRequired", function (event, toState, toParams, fromState, fromParams) {
+            $state.go('anon.login');
+        });
+
+
+    }]);
 
 ;

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -28,9 +29,7 @@
 
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="mainController">
-      <div class="header" ng-controller="DialogController">
       <navbar username="user.username"></navbar>
-      </div>
     </div>
     <div ui-view></div>
     <div data-ng-view=""></div>
@@ -73,9 +72,8 @@
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <script src="bower_components/angular-cache/dist/angular-cache.min.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/lodash/dist/lodash.js"></script>
     <script src="bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
-
+    <script src="bower_components/angular-http-auth/src/http-auth-interceptor.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -90,7 +88,6 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <script src="scripts/controllers/user.js"></script>
-    <script src="scripts/controllers/dialog.js"></script>
     <script src="scripts/controllers/band.js"></script>
 
     <script src="scripts/services/common.js"></script>

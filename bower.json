@@ -18,7 +18,8 @@
     "ngDialog": "~0.3.8",
     "angular-ui-select": "~0.9.5",
     "angular-cache": "~3.2.4",
-    "angularjs-dropdown-multiselect": "~1.5.2"
+    "angularjs-dropdown-multiselect": "~1.5.2",
+    "angular-http-auth": "~1.2.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
