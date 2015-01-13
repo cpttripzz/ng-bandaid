@@ -11,7 +11,7 @@
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
         'ui.bootstrap', 'ui.select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
-        'angular-data.DSCacheFactory'
+        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect'
     ])
 
 

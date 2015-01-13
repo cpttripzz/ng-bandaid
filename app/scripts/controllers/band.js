@@ -18,10 +18,18 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
         $scope.genreImgPath = thumbPath + '/genres/';
         $scope.availableGenres = genres;
         $scope.band = band;
+        $scope.availableGenresSettings = {
+            externalIdProp: '',
+            smartButtonMaxItems: 5,
+            displayProp: 'name'
+        };
         $scope.updateBand = function () {
             var id = $scope.band.id;
 
-            band.$update({ id:id }, $scope.band);
+            $scope.band.$update().then(function(data){
+                debugger;
+                console.log(data);
+            });
 
        }
     })
