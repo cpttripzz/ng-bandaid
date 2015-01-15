@@ -77,43 +77,82 @@ angular.module('AuthService', [])
 
         }])
 
-    .service('UserService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope','authService',
+    .factory('userService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope','authService',
         function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope,authService) {
             var apiConfig = commonServiceFactory.getApiConfig();
             var urlBase = apiConfig.baseUri + apiConfig.loginPath;
             var user = {};
+            var accessLevels = routingConfig.accessLevels;
+            var userRoles = routingConfig.userRoles;
+            var currentUser = $sessionStorage.user || { username: '', role: userRoles.ROLE_ANON };
 
-            this.login = function (username, password) {
-                var deferred = $q.defer();
-                try {
-                    $http.post(urlBase, {
-                        username: username,
-                        password: password
-
-                    }).then(function (result) {
-                        user = {
-                            token: result.data.token,
-                            username: result.data.username,
-                            userId: result.data.userId
-                        };
-                        $sessionStorage.user = user;
-                        authService.loginConfirmed('success', function(config){
-                            config.ignoreAuthModule = false;
-                            return config;
-                        });
-                        $rootScope.$broadcast('userLoggedIn', user);
-                        deferred.resolve(user);
-                    }, function (error) {
-                        deferred.reject(error);
-                    });
-                } catch (e) {
-                    deferred.reject(e);
-                }
-                return deferred.promise;
-            };
-            this.isLoggedIn = function(){
-                return (typeof $sessionStorage.user !== 'undefined');
+            function changeUser(user) {
+                angular.extend(currentUser, user);
             }
 
-        }
-    ]);
+            return {
+                authorize: function(accessLevel, role) {
+                    if(role === undefined) {
+                        role = currentUser.role;
+                    }
+
+                    return accessLevel.bitMask & role.bitMask;
+                },
+                isLoggedIn: function(user) {
+                    if(user === undefined) {
+                        user = currentUser;
+                    }
+                    return user.role.title === userRoles['ROLE_USER'].title || user.role.title === userRoles['ROLE_ADMIN'].title;
+                },
+                register: function(user, success, error) {
+                    $http.post('/register', user).success(function(res) {
+                        changeUser(res);
+                        success();
+                    }).error(error);
+                },
+                login: function(username, password) {
+                    var deferred = $q.defer();
+                    try {
+                        $http.post(urlBase, {
+                            username: username,
+                            password: password
+
+                        }).then(function (result) {
+                            user = {
+                                token: result.data.token,
+                                username: result.data.username,
+                                userId: result.data.userId,
+                                role: userRoles[result.data.roles[0]]
+                            };
+                            $sessionStorage.user = user;
+                            changeUser(user);
+                            authService.loginConfirmed('success', function(config){
+                                config.ignoreAuthModule = false;
+                                return config;
+                            });
+                            $rootScope.$broadcast('userLoggedIn', user);
+                            deferred.resolve(user);
+                        }, function (error) {
+                            deferred.reject(error);
+                        });
+                    } catch (e) {
+                        deferred.reject(e);
+                    }
+                    return deferred.promise;
+                }
+                ,
+                logout: function(success, error) {
+                    $http.post('/logout').success(function(){
+                        changeUser({
+                            username: '',
+                            role: userRoles.ROLE_ANON
+                        });
+                        success();
+                    }).error(error);
+                },
+                accessLevels: accessLevels,
+                userRoles: userRoles,
+                user: currentUser
+            };
+        }]);
+

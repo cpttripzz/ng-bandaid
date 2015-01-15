@@ -27,7 +27,6 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
             var id = $scope.band.id;
 
             $scope.band.$update().then(function(data){
-                debugger;
                 console.log(data);
             });
 

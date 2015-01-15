@@ -7,9 +7,9 @@
          * the memory footprint for an integer
          */
         roles :[
-            'public',
-            'user',
-            'admin'],
+            'ROLE_ANON',
+            'ROLE_USER',
+            'ROLE_ADMIN'],
 
         /*
          Build out all the access levels you want referencing the roles listed above
@@ -21,9 +21,9 @@
          */
         accessLevels : {
             'public' : "*",
-            'anon': ['public'],
-            'user' : ['user', 'admin'],
-            'admin': ['admin']
+            'anon': ['ROLE_ANON'],
+            'user' : ['ROLE_USER', 'ROLE_ADMIN'],
+            'admin': ['ROLE_ADMIN']
         }
 
     }
@@ -38,7 +38,6 @@
      */
 
     function buildRoles(roles){
-
         var bitMask = "01";
         var userRoles = {};
 

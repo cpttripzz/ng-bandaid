@@ -15,13 +15,13 @@ app
         });
 
     })
-    .controller('LoginController', function ($scope, $rootScope, ngDialog, UserService) {
+    .controller('LoginController', function ($scope, $rootScope, ngDialog, userService) {
         ngDialog.open({
             template: 'views/dialogs/login.html',
             controller: 'UserDialogController'
         });
     })
-    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, UserService) {
+    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, userService) {
 
         $scope.cancel = function () {
             ngDialog.close();
@@ -35,7 +35,7 @@ app
 
         $scope.loginForm = {};
         $scope.submitLogin = function (loginForm) {
-            UserService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
+            userService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
                     ngDialog.close();
                 },
                 function (error) {

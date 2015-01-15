@@ -29,7 +29,7 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access.anon
+                    access: access['ROLE_ANON']
                 }
             })
             .state('anon.login', {
@@ -56,7 +56,7 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access.user
+                    access: access['ROLE_USER']
                 }
             })
             .state('user.userItems', {
@@ -109,25 +109,25 @@ var app = angular
         $httpProvider.interceptors.push('TokenInterceptor');
     })
 
-    //
-    //.config(['$httpProvider', 'commonServiceFactoryProvider', function ($httpProvider, commonServiceFactory) {
-    //    $httpProvider.defaults.useXDomain = true;
-    //    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    //    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-    //    // get callable from provider
-    //    var getFormAsParams = commonServiceFactory.$get().getFormAsParams;
-    //    // Override $http service's default transformRequest
-    //    $httpProvider.defaults.transformRequest = [function (data) {
-    //        return angular.isObject(data) && String(data) !== '[object File]' ? getFormAsParams(data) : data;
-    //    }];
-    //}]);
-    //
-    .run(['$rootScope', '$state', 'UserService', function ($rootScope, $state, UserService) {
+    .run(['$rootScope', '$state', 'userService', function ($rootScope, $state, userService) {
 
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-            console.log(UserService.isLoggedIn(),toState.data.access.bitMask);
-            if ( ! UserService.isLoggedIn() && toState.data.access.bitMask > 6) {
-                $state.go('anon.login');
+            if(!('data' in toState) || !('access' in toState.data)){
+                $rootScope.error = "Access undefined for this state";
+                event.preventDefault();
+            }
+            else if (!userService.authorize(toState.data.access)) {
+                $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
+                event.preventDefault();
+
+                if(fromState.url === '^') {
+                    if(userService.isLoggedIn()) {
+                        $state.go('anon.home');
+                    } else {
+                        $rootScope.error = null;
+                        $state.go('anon.login');
+                    }
+                }
             }
         });
         $rootScope.$on("userLoggedOut", function (event, toState, toParams, fromState, fromParams) {
