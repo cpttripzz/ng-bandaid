@@ -11,10 +11,16 @@
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
         'ui.bootstrap', 'ui.select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
-        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor'
+        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation'
     ])
 
-
+    .config(function(uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            //    key: 'your api key',
+            v: '3.17',
+            libraries: 'weather,geometry,visualization'
+        });
+    })
     .config(function ($stateProvider, $httpProvider) {
         var access = routingConfig.accessLevels;
 
@@ -121,11 +127,13 @@ var app = angular
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
             console.log(UserService.isLoggedIn(),toState.data.access.bitMask);
             if ( ! UserService.isLoggedIn() && toState.data.access.bitMask > 6) {
-
                 $state.go('anon.login');
             }
         });
         $rootScope.$on("userLoggedOut", function (event, toState, toParams, fromState, fromParams) {
+            $state.go('anon.home');
+        });
+        $rootScope.$on("userLoggedIn", function (event, toState, toParams, fromState, fromParams) {
             $state.go('anon.home');
         });
         $rootScope.$on("event:auth-loginRequired", function (event, toState, toParams, fromState, fromParams) {

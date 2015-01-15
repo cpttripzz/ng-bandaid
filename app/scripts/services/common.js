@@ -12,7 +12,7 @@ angular.module('commonService', [])
 
     .factory('commonServiceFactory', function () {
         var factory = {};
-        var domain ='http://bandaid-api.com';
+        var domain ='https://bandaid-api.com';
         var script = 'app_dev.php';
         var baseUri = domain + '/' + script;
         factory.getApiConfig = function () {
