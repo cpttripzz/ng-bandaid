@@ -10,7 +10,7 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'ui.select',  'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
+        'ui.bootstrap', 'ui.select',  'ui.grid', 'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
         'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation'
     ])
 
@@ -21,7 +21,7 @@ var app = angular
             libraries: 'weather,geometry,visualization'
         });
     })
-    .config(function ($stateProvider, $httpProvider) {
+    .config(function ($stateProvider, $httpProvider,$urlRouterProvider) {
         var access = routingConfig.accessLevels;
 
         $stateProvider
@@ -29,7 +29,7 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access['ROLE_ANON']
+                    access: access.public
                 }
             })
             .state('anon.login', {
@@ -56,7 +56,7 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access['ROLE_USER']
+                    access: access.user
                 }
             })
             .state('user.userItems', {
@@ -89,6 +89,28 @@ var app = angular
 
                 }
             });
+        $stateProvider
+            .state('admin', {
+                abstract: true,
+                template: "<ui-view/>",
+                data: {
+                    access: access.admin
+                }
+            })
+            .state('admin.home', {
+                url: '/admin/',
+                templateUrl: 'views/admin/view.html',
+                controller: 'AdminController',
+                resolve: {
+                    adminResource: 'adminResource',
+                    users: function (adminResource) {
+                        return adminResource.getUsers().$promise;
+                    }
+                }
+            });
+
+
+        $urlRouterProvider.otherwise('/404');
     }).run(function ($state) {
         $state.go('anon.home');
     })
@@ -113,11 +135,9 @@ var app = angular
 
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
             if(!('data' in toState) || !('access' in toState.data)){
-                $rootScope.error = "Access undefined for this state";
                 event.preventDefault();
             }
             else if (!userService.authorize(toState.data.access)) {
-                $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
                 event.preventDefault();
 
                 if(fromState.url === '^') {
@@ -139,8 +159,6 @@ var app = angular
         $rootScope.$on("event:auth-loginRequired", function (event, toState, toParams, fromState, fromParams) {
             $state.go('anon.login');
         });
-
-
     }]);
 
 ;

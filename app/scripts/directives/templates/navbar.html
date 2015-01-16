@@ -41,6 +41,9 @@
           <li icon="fa fa-sign-out" class="last">
             <a href="" ng-click="logout()"><i class="fa fa-sign-out">Logout</i></a>
           </li>
+          <li ng-if="admin">
+            <a ui-sref="admin.home"><i class="fa fa-sign-out">Admin Powers</i></a>
+          </li>
         </ul>
       </li>
     </ul>

@@ -30,21 +30,18 @@ app.controller('mainController', function ($scope, $rootScope, $sessionStorage,c
     cacheService.getStaticData('genres').then(function (data) {
         $scope.genres = data;
     });
-    $scope.$storage = $sessionStorage;
-    if (typeof $scope.$storage.user != 'undefined') {
+    if (typeof $sessionStorage.user != 'undefined') {
         $scope.user = {
-            username: $scope.$storage.user.username,
-            userId: $scope.$storage.user.userId
+            username: $sessionStorage.user.username,
+            userId: $sessionStorage.user.userId,
+            admin : ($sessionStorage.user.role.title === 'ROLE_ADMIN')
         };
+
     } else {
         $scope.user = {
             username: ''
         };
     }
 
-    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-
-
-    });
 
 });

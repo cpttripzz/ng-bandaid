@@ -43,5 +43,14 @@ angular.module('ModelService', [])
             }
         });
     }])
+    .factory('adminResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var url = apiConfig.baseUri;
+        return $resource(url +'/api/secure/admin/userreports',{},{
+            getUsers:{
+                method:'GET'
+            }
+        });
+    }])
 
     ;

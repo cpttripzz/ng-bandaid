@@ -21,7 +21,8 @@ app.directive('navbar', function () {
       },
       scope: {
         logout: '&',
-        username: '='
+        username: '=',
+        admin: '='
       },
       link: function (scope,elem, attrs) {
         var e = elem;
