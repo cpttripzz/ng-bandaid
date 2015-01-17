@@ -21,14 +21,15 @@ app.directive('navbar', function () {
       },
       scope: {
         logout: '&',
-        username: '=',
-        admin: '='
+        user: '='
+
       },
       link: function (scope,elem, attrs) {
         var e = elem;
         var a =attrs;
-        scope.$on('userLoggedIn', function(event,args){
-          scope.username = args.username;
+        scope.$on('userLoggedIn', function(event,user){
+          scope.user = user;
+          scope.user.admin = user.role.title === 'ROLE_ADMIN'
         });
         scope.$on('userLoggedOut', function(event){
             scope.username = false;
