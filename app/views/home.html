@@ -6,7 +6,7 @@
         <div class="row multi-columns-row">
           <div class="association-item">
             <div class="association-image">
-              <a ui-sref="viewBand({slug:item[0].slug})">
+              <a ui-sref="anon.viewBand({slug:item[0].slug})">
                 <img src="{{userImgPath + '/' +item[0].documents[0].path}}" alt="" />
               </a>
             </div>
@@ -21,7 +21,7 @@
                 <div class="float-left text-left">Locations:
                   <addresses data="item[0].addresses"></addresses>
                 </div>
-                <li class="read-more"><a ui-sref="viewBand({slug:item[0].slug})" class="btn">Read more</a></li>
+                <li class="read-more"><a ui-sref="anon.viewBand({slug:item[0].slug})" class="btn">Read more</a></li>
               </ul>
             </div>
             <br>

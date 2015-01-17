@@ -8,7 +8,7 @@
  * Controller of the bandaidApp
  */
 app.controller('BandViewController', function ($scope, $stateParams, band) {
-        $scope.band = band.band[0];
+        $scope.band = band;
     })
     .controller('BandEditController', function ($scope, $stateParams, commonServiceFactory, band, genres) {
         var apiConfig = commonServiceFactory.getApiConfig();

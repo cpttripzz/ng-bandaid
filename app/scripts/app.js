@@ -11,7 +11,8 @@
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
         'ui.bootstrap', 'ui.select',  'ui.grid', 'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
-        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation'
+        'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation',
+        'ui.date'
     ])
 
     .config(function(uiGmapGoogleMapApiProvider) {
@@ -118,15 +119,7 @@ var app = angular
         $logProvider.debugEnabled(true);
     })
 
-    .config(['$sceDelegateProvider', 'commonServiceFactoryProvider', function ($sceDelegateProvider, commonServiceFactory) {
-        var apiConfig = commonServiceFactory.$get().getApiConfig();
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/user/*']);
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/band/*']);
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/api/secure/*']);
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/users/*']);
-        $sceDelegateProvider.resourceUrlWhitelist(['self', apiConfig.baseUri + '/web/img/genres/*']);
 
-    }])
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('TokenInterceptor');
     })

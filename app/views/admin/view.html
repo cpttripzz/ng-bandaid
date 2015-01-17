@@ -1,10 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-
-      <p>Welcome to admin</p>
+        <label for="fromDate" class="col-sm-2 control-label">From: </label>
+        <div >
+          <input ui-date  ui-date-format="DD, d MM, yy" ng-model="fromDate">
+        </div>
       <div id="grid1" ui-grid="gridOptions" class="grid"></div>
 
     </div>
-  </div>
+
 </div>
