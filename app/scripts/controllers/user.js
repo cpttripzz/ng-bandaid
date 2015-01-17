@@ -8,10 +8,16 @@
  * Controller of the bandaidApp
  */
 app
-    .controller('UserItemController', function ($scope, $stateParams, UserItem) {
-        $scope.userItems = {};
+    .controller('UserItemController', function ($scope, $stateParams, UserItem, commonServiceFactory) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var imgPath = apiConfig.imgPath;
+        var thumbPath = apiConfig.thumbPath;
+        $scope.bandPath = apiConfig.baseUri + '/band';
+        $scope.userImgPath = imgPath + '/users';
+
+        $scope.items = {};
         UserItem.get().$promise.then(function (userItems) {
-            $scope.userItems = userItems.bands;
+            $scope.items = userItems.bands;
         });
 
     })
@@ -47,4 +53,4 @@ app
 
     })
 
-    ;
+;

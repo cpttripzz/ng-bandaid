@@ -1,0 +1,31 @@
+<div data-ng-repeat="item in items" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+  <div class="row multi-columns-row">
+    <div class="association-item">
+      <div class="association-image">
+        <a ui-sref="anon.viewBand({slug:item[0].slug})">
+          <img src="{{userImgPath + '/' +item[0].documents[0].path}}" alt="" />
+        </a>
+      </div>
+      <div class="association-info">
+        <ul>
+          <li class="association-project-name">{{ item[0].name }}</li>
+
+          <div class="text-left ">Genres:
+            <genres data="item[0].genres"></genres>
+          </div>
+
+          <div class="float-left text-left">Locations:
+            <addresses data="item[0].addresses"></addresses>
+          </div>
+          <li class="read-more"><a ui-sref="anon.viewBand({slug:item[0].slug})" class="btn">Read more</a></li>
+        </ul>
+      </div>
+      <br>
+      <div>
+        <button type="button"
+            class="btn btn-primary">Request Audition
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

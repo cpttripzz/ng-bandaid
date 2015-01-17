@@ -43,6 +43,16 @@ angular.module('ModelService', [])
             }
         });
     }])
+    .factory('homeItemResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var url = apiConfig.baseUri;
+        return $resource(url +'/api/open/homeitems?page=:page',{},{
+            getMethod:{
+                method:'GET',
+                params: {page: '@page'}
+            }
+        });
+    }])
     .factory('adminResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;

@@ -7,7 +7,7 @@
  * # HomeController
  * Controller of the bandaidApp
  */
-app.controller('HomeController', function ($scope, ApiService, commonServiceFactory) {
+app.controller('HomeController', function ($scope, ApiService, commonServiceFactory, $location, homeItems,$stateParams) {
     var apiConfig = commonServiceFactory.getApiConfig();
     var imgPath = apiConfig.imgPath;
     var thumbPath = apiConfig.thumbPath;
@@ -16,28 +16,17 @@ app.controller('HomeController', function ($scope, ApiService, commonServiceFact
     $scope.genreImgPath = thumbPath + '/genres';
     $scope.flagImgPath = imgPath + '/flags';
     $scope.maxSize = 5;
-    $scope.currentPage = 1;
+    if(typeof $stateParams.page==='undefined') {
+        $scope.currentPage = 1;
+    } else {
+        $scope.currentPage = $stateParams.page;
+    }
     $scope.itemsPerPage = 16;
-    ApiService.getHomeItems().then(function (items) {
-            $scope.items = items.bands;
-            $scope.totalItems = items.length;
-        },
-        function (error) {
-            console.log(error);
-        }
-    );
-
+    $scope.items = homeItems.bands;
+    $scope.totalItems = homeItems.meta.total;
 
     $scope.pageChanged = function () {
-        ApiService.getHomeItems($scope.currentPage).then(function (items) {
-                $scope.items = items.bands;
-                $scope.totalItems = items.meta.total;
-            },
-            function (error) {
-                console.log(error);
-            }
-        );
-
+        $location.url('/home/page/' + $scope.currentPage);
         console.log('Page changed to: ' + $scope.currentPage);
     };
 

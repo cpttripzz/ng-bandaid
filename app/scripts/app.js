@@ -38,9 +38,15 @@ var app = angular
                 controller: 'LoginController'
             })
             .state('anon.home', {
-                url: '/',
+                url: '/home/page/:page',
                 templateUrl: 'views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                resolve: {
+                    homeItemResource: 'homeItemResource',
+                    homeItems: function (homeItemResource, $stateParams) {
+                        return homeItemResource.get({page: $stateParams.page}).$promise;
+                    }
+                }
             }).state('anon.viewBand', {
                 url: '/bands/:slug/view',
                 templateUrl: 'views/band/view.html',
@@ -111,7 +117,7 @@ var app = angular
             });
 
 
-        $urlRouterProvider.otherwise('/404');
+        //$urlRouterProvider.otherwise('/404');
     }).run(function ($state) {
         $state.go('anon.home');
     })
