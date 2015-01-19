@@ -6,7 +6,7 @@
  * @description
  * # header
  */
-app.directive('addresses', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('addresses', function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: {
@@ -37,4 +37,4 @@ app.directive('addresses', ['commonServiceFactory', function (commonServiceFacto
         }
 
     };
-}]);
+});

@@ -7,7 +7,7 @@
           <div class="association-item">
             <div class="association-image">
               <a href="item.id">
-                <img src="{{userImgPath + '/' +item.documents[0].path}}" alt="" />
+                <img ng-src="{{userImgPath + '/' +item.documents[0].path}}" alt="" />
               </a>
             </div>
             <div class="association-info">
@@ -17,7 +17,7 @@
                 <div class="text-left ">Genres:
 
                   <span class="genre" data-ng-repeat="genre in item.genres">
-                      {{genre.name}}<img src="{{genreImgPath + '/' + genre.slug + '.jpg'}}" alt="" />
+                      {{genre.name}}<img ng-src="{{genreImgPath + '/' + genre.slug + '.jpg'}}" alt="" />
                     </span>
                 </div>
 
@@ -25,7 +25,7 @@
                   <span class="flag" data-ng-repeat="address in item.address">
                     <span data-ng-repeat="city in address.city">
                       <span data-ng-repeat="country in city.country " ng-init="c = country.code.toLowerCase()">
-                         <img class="flag" src="{{flagImgPath + '/' + c +'.png'}}" alt="" />
+                         <img class="flag" ng-src="{{flagImgPath + '/' + c +'.png'}}" alt="" />
                         </span>
                     </span>
                   </span>

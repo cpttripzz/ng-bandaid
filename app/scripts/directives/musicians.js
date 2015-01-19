@@ -6,7 +6,7 @@
  * @description
  * # header
  */
-app.directive('musicians', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('musicians', function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: { 'musicians': '=data' },
@@ -20,4 +20,4 @@ app.directive('musicians', ['commonServiceFactory', function (commonServiceFacto
             }
         }
     };
-}]);
+});

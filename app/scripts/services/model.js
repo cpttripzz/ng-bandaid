@@ -9,7 +9,7 @@
  */
 angular.module('modelService', [])
 
-    .factory('bandResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+    .factory('bandResource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/open/bands/:slug/',{},{
@@ -33,8 +33,8 @@ angular.module('modelService', [])
                 params: {id: '@id'}
             }
         });
-    }])
-    .factory('UserItem', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+    })
+    .factory('UserItem', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/secure/useritems/slug',{},{
@@ -42,8 +42,8 @@ angular.module('modelService', [])
                 method:'GET'
             }
         });
-    }])
-    .factory('homeItemResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+    })
+    .factory('homeItemResource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/open/homeitems?page=:page',{},{
@@ -52,8 +52,8 @@ angular.module('modelService', [])
                 params: {page: '@page'}
             }
         });
-    }])
-    .factory('adminResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
+    })
+    .factory('adminResource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/secure/admin/userreports',{},{
@@ -61,6 +61,6 @@ angular.module('modelService', [])
                 method:'GET'
             }
         });
-    }])
+    })
 
-    ;
+;

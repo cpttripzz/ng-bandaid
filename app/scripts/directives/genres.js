@@ -6,7 +6,7 @@
  * @description
  * # header
  */
-app.directive('genres', ['commonServiceFactory', function (commonServiceFactory) {
+app.directive('genres',  function (commonServiceFactory) {
     return {
         restrict: 'E',
         scope: { 'genres': '=data' },
@@ -20,4 +20,4 @@ app.directive('genres', ['commonServiceFactory', function (commonServiceFactory)
             }
         }
     };
-}]);
+});
