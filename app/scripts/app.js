@@ -30,12 +30,17 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access.public
+                    access: access.public,
+                    saveState: true
                 }
             })
             .state('anon.login', {
                 url: '/login',
-                controller: 'LoginController'
+                controller: 'LoginController',
+                data: {
+                    access: access.public,
+                    saveState: false
+                }
             })
             .state('anon.home', {
                 url: '/home/page/:page',
@@ -63,7 +68,8 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access.user
+                    access: access.user,
+                    saveState: true
                 }
             })
             .state('user.userItems', {
@@ -121,16 +127,16 @@ var app = angular
     }).run(function ($state) {
         $state.go('anon.home');
     })
+
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     })
-
 
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('tokenInterceptor');
     })
 
-    .run(['$rootScope', '$state', 'userService', function ($rootScope, $state, userService) {
+    .run(function ($rootScope, $state, userService,$sessionStorage) {
 
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
             if(!('data' in toState) || !('access' in toState.data)){
@@ -147,7 +153,26 @@ var app = angular
                         $state.go('anon.login');
                     }
                 }
+            } else {
+                if(toState.data.saveState) {
+                    var $oldState = $sessionStorage.lastState;
+                    var $newState = [{
+                        toState: toState,
+                        toParams: toParams
+                    }];
+                    if ($oldState) {
+                        if (angular.equals($oldState, $newState)) {
+                            return;
+                        }
+                    }
+                    $sessionStorage.lastState = $newState;
+                }
             }
+        });
+
+        $rootScope.$on('ngDialog.closed', function (e, $dialog) {
+            var $oldState = $sessionStorage.lastState;
+            $state.go($oldState[0].toState.name, $oldState[0].toParams);
         });
         $rootScope.$on("userLoggedOut", function (event, toState, toParams, fromState, fromParams) {
             $state.go('anon.home');
@@ -158,6 +183,6 @@ var app = angular
         $rootScope.$on("event:auth-loginRequired", function (event, toState, toParams, fromState, fromParams) {
             $state.go('anon.login');
         });
-    }]);
+    });
 
 ;

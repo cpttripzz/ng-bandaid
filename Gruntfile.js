@@ -318,6 +318,13 @@ module.exports = function (grunt) {
           src: ['*.js', '!oldieshim.js'],
           dest: '.tmp/concat/scripts'
         }]
+      },
+      stripAnnotations: {
+        files: [{
+          expand: true,
+          src: ['*.js', '!oldieshim.js'],
+          dest: './'
+        }]
       }
     },
 
