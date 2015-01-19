@@ -119,15 +119,12 @@ angular.module('auth', [])
                     return deferred.promise;
                 }
                 ,
-                //logout: function(success, error) {
-                //    $http.post('/logout').success(function(){
-                //        changeUser({
-                //            username: '',
-                //            role: userRoles.ROLE_ANON
-                //        });
-                //        success();
-                //    }).error(error);
-                //},
+                logout: function(success, error) {
+                    changeUser({
+                        username: '',
+                        role: userRoles.ROLE_ANON
+                    });
+                },
                 accessLevels: accessLevels,
                 userRoles: userRoles,
                 user: currentUser

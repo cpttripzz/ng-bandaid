@@ -13,8 +13,7 @@ app.directive('navbar', function () {
       restrict: 'E',
       controller: function($scope, $sessionStorage, $rootScope){
         $scope.logout = function () {
-          $scope.$storage = $sessionStorage;
-          delete $scope.$storage.user;
+          delete $sessionStorage.user;
           delete $scope.user;
           $rootScope.$broadcast('userLoggedOut');
         };

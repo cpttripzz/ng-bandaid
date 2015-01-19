@@ -107,7 +107,8 @@ var app = angular
                 abstract: true,
                 template: "<ui-view/>",
                 data: {
-                    access: access.admin
+                    access: access.admin,
+                    saveState: true
                 }
             })
             .state('admin.home', {
@@ -175,10 +176,17 @@ var app = angular
             $state.go($oldState[0].toState.name, $oldState[0].toParams);
         });
         $rootScope.$on("userLoggedOut", function (event, toState, toParams, fromState, fromParams) {
-            $state.go('anon.home');
+            userService.logout();
+            var $oldState = $sessionStorage.lastState;
+            if (!userService.authorize($oldState[0].toState.data.access)){
+                $state.go('anon.home');
+            } else {
+                $state.go($oldState[0].toState.name, $oldState[0].toParams);
+            }
         });
         $rootScope.$on("userLoggedIn", function (event, toState, toParams, fromState, fromParams) {
-            $state.go('anon.home');
+            var $oldState = $sessionStorage.lastState;
+            $state.go($oldState[0].toState.name, $oldState[0].toParams);
         });
         $rootScope.$on("event:auth-loginRequired", function (event, toState, toParams, fromState, fromParams) {
             $state.go('anon.login');
