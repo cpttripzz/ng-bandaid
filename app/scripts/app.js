@@ -10,7 +10,7 @@
  */
 var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
-        'ui.bootstrap', 'ui.select',  'ui.grid', 'ngDialog', 'ngStorage', 'commonService', 'AuthService', 'ui.router', 'ModelService',
+        'ui.bootstrap', 'ui.select',  'ui.grid', 'ngDialog', 'ngStorage', 'commonService', 'auth', 'ui.router', 'modelService',
         'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation',
         'ui.date'
     ])
@@ -127,7 +127,7 @@ var app = angular
 
 
     .config(function ($httpProvider) {
-        $httpProvider.interceptors.push('TokenInterceptor');
+        $httpProvider.interceptors.push('tokenInterceptor');
     })
 
     .run(['$rootScope', '$state', 'userService', function ($rootScope, $state, userService) {

@@ -7,7 +7,7 @@
  * # HomeController
  * Controller of the bandaidApp
  */
-app.controller('HomeController', function ($scope, ApiService, commonServiceFactory, $location, homeItems,$stateParams) {
+app.controller('HomeController', function ($scope, commonServiceFactory, $location, homeItems,$stateParams) {
     var apiConfig = commonServiceFactory.getApiConfig();
     var imgPath = apiConfig.imgPath;
     var thumbPath = apiConfig.thumbPath;

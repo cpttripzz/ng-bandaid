@@ -45,7 +45,7 @@ app
                     ngDialog.close();
                 },
                 function (error) {
-                    $scope.loginForm.errors = error.data.reasons;
+                    $scope.loginForm.errors = error.data.message;
                 }
             );
         }

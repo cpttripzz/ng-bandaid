@@ -7,15 +7,16 @@
  * # UserService
  * Service in the bandaidApp.
  */
-angular.module('AuthService', [])
-    .factory('AuthService', function () {
+angular.module('auth', [])
+    .factory('authService', function () {
         var auth = {
             isAuthenticated: false
         }
 
         return auth;
     })
-    .factory('TokenInterceptor', function ($q, $sessionStorage, $location, AuthService) {
+
+    .factory('tokenInterceptor', ["$q", "$sessionStorage", "$location", "authService", function ($q, $sessionStorage, $location, authService) {
         return {
             request: function (config) {
                 config.headers = config.headers || {};
@@ -31,51 +32,24 @@ angular.module('AuthService', [])
 
             /* Set Authentication.isAuthenticated to true if 200 received */
             response: function (response) {
-                if (response != null && response.status == 200 && $sessionStorage.user && !AuthService.isAuthenticated) {
-                    AuthService.isAuthenticated = true;
+                if (response != null && response.status == 200 && $sessionStorage.user && !authService.isAuthenticated) {
+                    authService.isAuthenticated = true;
                 }
                 return response || $q.when(response);
             },
 
             /* Revoke client authentication if 401 is received */
             responseError: function (rejection) {
-                if (rejection != null && rejection.status === 401 && ($sessionStorage.usertoken || AuthService.isAuthenticated)) {
+                if (rejection != null && rejection.status === 401 && ($sessionStorage.usertoken || authService.isAuthenticated)) {
                     delete $sessionStorage.user;
-                    AuthService.isAuthenticated = false;
+                    authService.isAuthenticated = false;
                     $location.path("/");
                 }
 
                 return $q.reject(rejection);
             }
         };
-    })
-
-    .service('ApiService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope',
-        function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope) {
-            var apiConfig = commonServiceFactory.getApiConfig();
-
-            this.getHomeItems = function (nextPage) {
-                var url = apiConfig.baseUri + apiConfig.homePath;
-                if (typeof nextPage !== 'undefined') {
-                    url += '?page=' + nextPage;
-                }
-                var deferred = $q.defer();
-                try {
-                    var items = {};
-                    $http.get(url)
-                        .then(function (result) {
-                            items = result.data;
-                            deferred.resolve(items);
-                        }, function (error) {
-                            deferred.reject(items);
-                        });
-                } catch (e) {
-                    deferred.reject(e);
-                }
-                return deferred.promise;
-            };
-
-        }])
+    }])
 
     .factory('userService', ['$http', '$q', 'commonServiceFactory', '$sessionStorage', '$rootScope','authService',
         function ($http, $q, commonServiceFactory, $sessionStorage, $rootScope,authService) {
@@ -104,12 +78,12 @@ angular.module('AuthService', [])
                     }
                     return user.role.title === userRoles['ROLE_USER'].title || user.role.title === userRoles['ROLE_ADMIN'].title;
                 },
-                register: function(user, success, error) {
-                    $http.post('/register', user).success(function(res) {
-                        changeUser(res);
-                        success();
-                    }).error(error);
-                },
+                //register: function(user, success, error) {
+                //    $http.post('/register', user).success(function(res) {
+                //        changeUser(res);
+                //        success();
+                //    }).error(error);
+                //},
                 login: function(username, password) {
                     var deferred = $q.defer();
                     try {
@@ -118,20 +92,24 @@ angular.module('AuthService', [])
                             password: password
 
                         }).then(function (result) {
-                            user = {
-                                token: result.data.token,
-                                username: result.data.username,
-                                userId: result.data.userId,
-                                role: userRoles[result.data.roles[0]]
-                            };
-                            $sessionStorage.user = user;
-                            changeUser(user);
-                            authService.loginConfirmed('success', function(config){
-                                config.ignoreAuthModule = false;
-                                return config;
-                            });
-                            $rootScope.$broadcast('userLoggedIn', user);
-                            deferred.resolve(user);
+                            if (!result.data.username){
+                                deferred.reject(result);
+                            } else {
+                                user = {
+                                    token: result.data.token,
+                                    username: result.data.username,
+                                    userId: result.data.userId,
+                                    role: userRoles[result.data.roles[0]]
+                                };
+                                $sessionStorage.user = user;
+                                changeUser(user);
+                                authService.loginConfirmed('success', function (config) {
+                                    config.ignoreAuthModule = false;
+                                    return config;
+                                });
+                                $rootScope.$broadcast('userLoggedIn', user);
+                                deferred.resolve(user);
+                            }
                         }, function (error) {
                             deferred.reject(error);
                         });
@@ -141,15 +119,15 @@ angular.module('AuthService', [])
                     return deferred.promise;
                 }
                 ,
-                logout: function(success, error) {
-                    $http.post('/logout').success(function(){
-                        changeUser({
-                            username: '',
-                            role: userRoles.ROLE_ANON
-                        });
-                        success();
-                    }).error(error);
-                },
+                //logout: function(success, error) {
+                //    $http.post('/logout').success(function(){
+                //        changeUser({
+                //            username: '',
+                //            role: userRoles.ROLE_ANON
+                //        });
+                //        success();
+                //    }).error(error);
+                //},
                 accessLevels: accessLevels,
                 userRoles: userRoles,
                 user: currentUser

@@ -7,7 +7,7 @@
  * # UserService
  * Service in the bandaidApp.
  */
-angular.module('ModelService', [])
+angular.module('modelService', [])
 
     .factory('bandResource', [ 'commonServiceFactory','$resource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
