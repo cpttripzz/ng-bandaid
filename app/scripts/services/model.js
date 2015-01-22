@@ -62,5 +62,28 @@ angular.module('modelService', [])
             }
         });
     })
+    .factory('userResource', function(commonServiceFactory,$resource) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var url = apiConfig.baseUri;
+        return $resource(url + '/api/open/register',{username: '@username',email: '@email',password: '@password'},{
+            checkUserNameOrEmailAvailable:{
+                method:'GET',
+                url: url +'/api/open/checkUserNameOrEmailAvailable',
+                params: {
+                    field: '@field',
+                    value: '@value'
+                }
 
+            },
+            'register': {
+                method:'POST',
+                url:url + '/api/open/register',
+                params: {
+                    username: '@username',
+                    email: '@email',
+                    password: '@password'
+                }
+            }
+        });
+    })
 ;

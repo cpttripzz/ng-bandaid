@@ -27,7 +27,7 @@ app
             controller: 'UserDialogController'
         });
     })
-    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, userService) {
+    .controller('UserDialogController', function ($scope, $rootScope, ngDialog, userService,alertService) {
 
         $scope.cancel = function () {
             ngDialog.close();
@@ -39,18 +39,25 @@ app
             }
         };
 
-        $scope.loginForm = {};
         $scope.submitLogin = function (loginForm) {
-            userService.login($scope.loginForm.username, $scope.loginForm.password).then(function () {
+            userService.login(loginForm.username.$modelValue, loginForm.password.$modelValue).then(function () {
                     ngDialog.close();
                 },
                 function (error) {
                     $scope.loginForm.errors = error.data.message;
                 }
             );
-        }
-
-
+        };
+        $scope.submitRegistration = function (loginForm) {
+            userService.register(loginForm.username.$modelValue,loginForm.email.$modelValue, loginForm.password.$modelValue).then(function (data) {
+                alertService.addAlert({ type: 'success', msg: 'User Successfully Created.' },true);
+                ngDialog.close();
+            });
+        };
+        $scope.showRegisterEmailField = false;
+        $scope.showRegister = function (){
+            $scope.showRegisterEmailField = true;
+        };
     })
 
 ;

@@ -32,6 +32,7 @@
 
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="mainController">
+      <alert ng-cloak class="ng-cloak" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
       <navbar  user="user"></navbar>
     </div>
     <div ui-view></div>
@@ -93,6 +94,7 @@
     <script src="scripts/directives/genres.js"></script>
     <script src="scripts/directives/addresses.js"></script>
     <script src="scripts/directives/musicians.js"></script>
+    <script src="scripts/directives/do-on-blur.js"></script>
 
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/admin.js"></script>

@@ -9,7 +9,26 @@
  */
 
 angular.module('commonService', [])
-
+    .service('alertService',function($timeout){
+        var alerts = [];
+        return {
+            getAlerts: function(){
+                return alerts;
+            },
+            addAlert: function(alert,timeout){
+                alerts.push(alert);
+                var i = alerts.length;
+                if(timeout){
+                    $timeout(function(){
+                        alerts.splice(i-1, 1);
+                    }, 3000); // maybe '}, 3000, false);' to avoid calling apply
+                }
+            },
+            removeAlert: function(index){
+                alerts.splice(index, 1);
+            }
+        }
+    })
     .factory('commonServiceFactory', function () {
         var factory = {};
         var domain ='https://bandaid-api.com';

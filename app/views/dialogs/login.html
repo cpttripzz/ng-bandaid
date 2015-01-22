@@ -1,18 +1,32 @@
 <div class="modal-header">
   <h4 class="modal-title">Login</h4></div>
 <div class="modal-body">
-  <form novalidate ng-submit="submitLogin(loginForm)">
+  <form name="loginForm" novalidate >
     <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$invalid }"><label>username</label>
-			<input type="username" name="username" ng-model="loginForm.username" required="required" class="form-control"/>
+			<input  name="username" ng-model="username" ng-required="required" class="form-control" run="showRegisterEmailField"
+          do-on-blur='{"reverseResult":true,"validateClass":"usernameNotAvailable","service": "userService", "functionName": "checkUserNameOrEmailAvailable", "field": "username"}'
+          />
 
-      <p ng-show="loginForm.username.$invalid" class="help-block">Enter a valid username.</p>
-      <span class="help-block" ng-show="loginForm.username.$error.required">Required</span>
-
+      <p ng-show="loginForm.username.$invalid && !loginForm.username.$pristine" class="help-block">Enter a valid username.</p>
+      <span class="help-block" ng-show="loginForm.username.$error.required && !loginForm.username.$pristine">Required</span>
+      <p class="help-block" ng-if="loginForm.username.$error.usernameNotAvailable">Username is already taken.</p>
       <div class="form-group"><label>password</label>
-				<input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/>
+				<input type="password" name="password" ng-model="password" required="required" class="form-control"/>
 			</div>
-      <button ng-disabled="loginForm.$invalid" type="submit" class="btn btn-primary btn-lg">Sign in</button>
-      <div ng-model="loginForm.errors">{{loginForm.errors}}</div>
+      <div ng-show="showRegisterEmailField" class="form-group"><label>email</label>
+        <input type="email" name="email" ng-model="email" ng-required="showRegisterEmailField" class="form-control"
+            do-on-blur='{"reverseResult":true,"validateClass":"emailNotAvailable","service": "userService", "functionName": "checkUserNameOrEmailAvailable", "field": "email"}'
+        />
+      </div>
+      <p class="help-block" ng-show="loginForm.email.$error.required && !loginForm.email.$pristine">Required!</p>
+      <p class="help-block" ng-show="loginForm.email.$error.email && !loginForm.email.$pristine">Not a valid email!</p>
+      <p class="help-block" ng-if="loginForm.email.$error.emailNotAvailable">Email is already in use.</p>
+
+      <button ng-show="!showRegisterEmailField" ng-disabled="loginForm.$invalid" type="submit" ng-click="submitLogin(loginForm)" class="btn btn-primary btn-lg">Sign in</button>
+      <a ng-show="!showRegisterEmailField" ng-click="showRegister()">Register</a>
+      <button ng-show="showRegisterEmailField" ng-disabled="loginForm.$invalid" type="submit" ng-click="submitRegistration(loginForm)" class="btn btn-primary btn-lg">Finish Registration</button>
+
+      <div ng-model="errors">{{loginForm.errors}}</div>
     </div>
   </form>
 </div>

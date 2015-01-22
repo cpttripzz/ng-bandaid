@@ -7,9 +7,16 @@
  * # MainCtrl
  * Controller of the bandaidApp
  */
-app.controller('mainController', function ($scope, $rootScope, $sessionStorage,cacheService,$geolocation) {
+app.controller('mainController', function ($scope, $rootScope, $sessionStorage, cacheService, $geolocation, alertService, $timeout) {
     $scope.position = $geolocation.getCurrentPosition({
         timeout: 60000
+    });
+    $scope.alerts = alertService.getAlerts();
+    $scope.closeAlert = function (index) {
+        alertService.removeAlert(index);
+    };
+    $scope.$watch(function () {
+        return alertService.getAlerts();
     });
     //$geolocation.watchPosition({
     //    timeout: 60000,
@@ -34,7 +41,7 @@ app.controller('mainController', function ($scope, $rootScope, $sessionStorage,c
         $scope.user = {
             username: $sessionStorage.user.username,
             userId: $sessionStorage.user.userId,
-            admin : ($sessionStorage.user.role.title === 'ROLE_ADMIN')
+            admin: ($sessionStorage.user.role.title === 'ROLE_ADMIN')
         };
 
     } else {
