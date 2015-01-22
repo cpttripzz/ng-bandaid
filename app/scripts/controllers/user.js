@@ -8,20 +8,18 @@
  * Controller of the bandaidApp
  */
 app
-    .controller('UserItemController', function ($scope, $stateParams, UserItem, commonServiceFactory) {
+    .controller('UserItemController', function ($scope, $stateParams, userItems, user, commonServiceFactory) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var imgPath = apiConfig.imgPath;
         var thumbPath = apiConfig.thumbPath;
         $scope.bandPath = apiConfig.baseUri + '/band';
         $scope.userImgPath = imgPath + '/users';
-
-        $scope.items = {};
-        UserItem.get().$promise.then(function (userItems) {
             $scope.items = userItems.bands;
-        });
+        $scope.user = user;
+
 
     })
-    .controller('LoginController', function ($scope, $rootScope, ngDialog, userService) {
+    .controller('LoginController', function ($scope, $rootScope, ngDialog) {
         ngDialog.open({
             template: 'views/dialogs/login.html',
             controller: 'UserDialogController'
@@ -31,7 +29,7 @@ app
 
         $scope.cancel = function () {
             ngDialog.close();
-        }; // end cancel
+        };
 
         $scope.hitEnter = function (evt) {
             if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.username, null) || angular.equals($scope.username, ''))) {

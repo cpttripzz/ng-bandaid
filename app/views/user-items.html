@@ -1,9 +1,9 @@
-<div class="container" ng-controller="UserItemController">
+<div class="container">
   <div class="panel">
     <div class="row multi-columns-row">
       <h4>Your Bands:</h4>
       <ng-include src="'/views/band/grid.html'"> </ng-include>
     </div>
-    <pager total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  items-per-page="itemsPerPage"></pager>
+    <pager ng-show="totalItems" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  items-per-page="itemsPerPage"></pager>
   </div>
 </div>

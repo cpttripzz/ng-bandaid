@@ -17,6 +17,7 @@
           <div class="float-left text-left">Locations:
             <addresses data="item[0].addresses"></addresses>
           </div>
+          <li ng-show="user.userId === item.userId" class="read-more"><a ui-sref="user.band.edit({slug:item[0].slug})" class="btn">Edit</a></li>
           <li class="read-more"><a ui-sref="anon.viewBand({slug:item[0].slug})" class="btn">Read more</a></li>
         </ul>
       </div>

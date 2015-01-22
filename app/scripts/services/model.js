@@ -34,7 +34,7 @@ angular.module('modelService', [])
             }
         });
     })
-    .factory('UserItem', function(commonServiceFactory,$resource) {
+    .factory('userItemResource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
         return $resource(url +'/api/secure/useritems/slug',{},{

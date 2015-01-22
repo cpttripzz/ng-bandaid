@@ -70,22 +70,29 @@ var app = angular
                 data: {
                     access: access.user,
                     saveState: true
+                },
+                resolve: {
+                    $sessionStorage: '$sessionStorage',
+                    user: function($sessionStorage){
+                        return $sessionStorage.user;
+                }
                 }
             })
             .state('user.userItems', {
                 url: '/user/items',
                 templateUrl: 'views/user-items.html',
-                controller: 'UserItemController'
+                controller: 'UserItemController',
+                resolve: {
+                    userItemResource: 'userItemResource',
+                    userItems: function(userItemResource){
+                        return userItemResource.get().$promise;
+                    }
+                }
+
             })
-            .state('user.newBand', {
-                url: '/bands/new',
-                templateUrl: 'views/band/add.html',
-                controller: 'BandCreateController'
-            })
-            .state('user.editBand', {
-                url: '/bands/:slug/edit',
-                templateUrl: 'views/band/edit.html',
-                controller: 'BandEditController',
+            .state('user.band', {
+                abstract: true,
+                template: "<ui-view/>",
                 resolve: {
                     bandResource: 'bandResource',
                     band: function (bandResource, $stateParams) {
@@ -99,7 +106,26 @@ var app = angular
                         });
                         return deferred.promise;
                     }
-
+                }
+            })
+            .state('user.band.new', {
+                url: '/bands/new',
+                controller: 'BandEditController',
+                templateUrl: 'views/band/edit.html',
+                resolve: {
+                    band: function (bandResource) {
+                        return new bandResource;
+                    }
+                }
+            })
+            .state('user.band.edit', {
+                url: '/bands/:slug/edit',
+                controller: 'BandEditController',
+                templateUrl: 'views/band/edit.html',
+                resolve: {
+                    band: function (bandResource, $stateParams) {
+                        return bandResource.get({slug: $stateParams.slug}).$promise;
+                    }
                 }
             });
         $stateProvider
