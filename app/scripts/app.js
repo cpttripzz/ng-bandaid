@@ -49,7 +49,11 @@ var app = angular
                 resolve: {
                     homeItemResource: 'homeItemResource',
                     homeItems: function (homeItemResource, $stateParams) {
-                        return homeItemResource.get({page: $stateParams.page}).$promise;
+                        var page = $stateParams.page;
+                        if(!page){
+                            page = 1;
+                        }
+                        return homeItemResource.get({page: page}).$promise;
                     }
                 }
             }).state('anon.viewBand', {
@@ -95,9 +99,6 @@ var app = angular
                 template: "<ui-view/>",
                 resolve: {
                     bandResource: 'bandResource',
-                    band: function (bandResource, $stateParams) {
-                        return bandResource.get({slug: $stateParams.slug}).$promise;
-                    },
                     cacheService: 'cacheService',
                     genres: function(cacheService,$q){
                         var deferred = $q.defer();

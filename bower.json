@@ -16,7 +16,7 @@
     "ngstorage": "*",
     "angular-ui-router": "~0.2.13",
     "ngDialog": "~0.3.8",
-    "angular-ui-select": "~0.9.5",
+    "angular-ui-select": "~0.9.6",
     "angular-cache": "~3.2.4",
     "angularjs-dropdown-multiselect": "~1.5.2",
     "angular-http-auth": "~1.2.2",

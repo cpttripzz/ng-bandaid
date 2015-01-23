@@ -21,9 +21,8 @@ angular.module('modelService', [])
                 url: url +'/api/open/bands/:id/',
                 params: {id: '@id'}
             },
-            postMethod:{
+            save:{
                 url:url + '/api/secure/band/:id',
-                params: {id: '@id'},
                 method:'POST',
                 isArray:false
             },
@@ -37,7 +36,7 @@ angular.module('modelService', [])
     .factory('userItemResource', function(commonServiceFactory,$resource) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var url = apiConfig.baseUri;
-        return $resource(url +'/api/secure/useritems/slug',{},{
+        return $resource(url +'/api/secure/useritems',{},{
             getMethod:{
                 method:'GET'
             }

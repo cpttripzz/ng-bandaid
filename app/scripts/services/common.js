@@ -21,7 +21,7 @@ angular.module('commonService', [])
                 if(timeout){
                     $timeout(function(){
                         alerts.splice(i-1, 1);
-                    }, 3000); // maybe '}, 3000, false);' to avoid calling apply
+                    }, 5000); // maybe '}, 3000, false);' to avoid calling apply
                 }
             },
             removeAlert: function(index){

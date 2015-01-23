@@ -2,6 +2,11 @@
   <div class="panel">
     <div class="row multi-columns-row">
       <h4>Your Bands:</h4>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input  ui-sref="user.band.new" class="btn btn-primary" value="Create New Musician"/>
+        </div>
+      </div>
       <ng-include src="'/views/band/grid.html'"> </ng-include>
     </div>
     <pager ng-show="totalItems" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  items-per-page="itemsPerPage"></pager>
