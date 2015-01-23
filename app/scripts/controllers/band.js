@@ -10,9 +10,10 @@
 app.controller('BandViewController', function ($scope, $stateParams, band) {
         $scope.band = band;
     })
-    .controller('BandEditController', function ($scope, $stateParams, commonServiceFactory, band, genres,alertService,$location) {
+    .controller('BandEditController', function ($scope, $stateParams, commonServiceFactory, band, genres,alertService,$location,$upload) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var thumbPath = apiConfig.thumbPath;
+        var documentUploadUrl = apiConfig.baseUri + '/api/secure/documents';
         $scope.genreImgPath = thumbPath + '/genres/';
         $scope.availableGenres = genres;
         $scope.band = band;
@@ -36,6 +37,22 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
                     console.log(data);
                 });
             }
-        }
+        };
+        $scope.myFiles =[];
+        $scope.$watch('myFiles', function() {
+            for (var i = 0; i < $scope.myFiles.length; i++) {
+                var file = $scope.myFiles[i];
+                $scope.upload = $upload.upload({
+                    url: documentUploadUrl,
+                    method: 'POST',
+                    file: file
+                }).progress(function (evt) {
+                    console.log('progress: ' + parseInt(100.0 * evt.loaded / evt.total) + '% file :' + evt.config.file.name);
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
+                });
+            }
+        });
     })
 ;

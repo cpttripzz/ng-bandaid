@@ -41,7 +41,7 @@ angular.module('commonService', [])
                 'loginPath': '/api/open/getToken',
                 'logoutPath': '/user/logout',
                 'registrationPath': '/user/register',
-                'homePath': '/api/open/homeitems/1',
+                'homePath': '/api/open/homeitems/',
                 'imgPath': domain + '/img',
                 'thumbPath' : domain + '/media/cache/thumb/img',
                 'assocSmallImgPath' : domain + '/media/cache/assoc/img/users/',

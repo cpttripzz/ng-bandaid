@@ -12,7 +12,7 @@ var app = angular
     .module('bandaidApp', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ngTouch',
         'ui.bootstrap', 'ui.select',  'ui.grid', 'ngDialog', 'ngStorage', 'commonService', 'auth', 'ui.router', 'modelService',
         'angular-data.DSCacheFactory', 'angularjs-dropdown-multiselect', 'http-auth-interceptor','uiGmapgoogle-maps', 'ngGeolocation',
-        'ui.date'
+        'ui.date','angularFileUpload'
     ])
 
     .config(function(uiGmapGoogleMapApiProvider) {
