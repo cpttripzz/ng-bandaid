@@ -8,17 +8,23 @@
  * Controller of the bandaidApp
  */
 app
-    .controller('DocumentController', function ($scope, $rootScope, ngDialog) {
-        ngDialog.open({
+    .controller('DocumentController', function ($scope, $rootScope, ngDialog,$stateParams) {
+        console.log($stateParams);
+        var dialog = ngDialog.open({
             template: 'views/dialogs/add-document.html',
             controller: 'DocumentDialogController',
             className: 'ng-dialog-width-full'
         });
+        dialog.closePromise.then(function (data) {
+
+        });
     })
-    .controller('DocumentDialogController', function ($scope, $sessionStorage,$stateParams, commonServiceFactory,alertService,$location,$upload) {
+    .controller('DocumentDialogController', function ($scope, $sessionStorage,$stateParams, commonServiceFactory,alertService,$location,$upload,$window) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var documentUploadUrl = apiConfig.baseUri + '/api/secure/documents';
         $scope.myFiles =[];
+        $scope.isHTML5 = !!($window.File && $window.FormData);
+
         $scope.uploadAll = function() {
             for (var i = 0; i < $scope.myFiles.length; i++) {
                 var file = $scope.myFiles[i];
@@ -33,6 +39,7 @@ app
                     console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
                 });
             }
+
         };
     })
 

@@ -96,7 +96,11 @@ var app = angular
             })
             .state('user.documentsAdd', {
                 url: '/user/documents/:id/add',
-                controller: 'DocumentController'
+                controller: 'DocumentController',
+                data: {
+                    access: access.user,
+                    saveState: false
+                }
             })
             .state('user.band', {
                 abstract: true,

@@ -17,16 +17,28 @@
     <label for="genre" class="col-sm-2 control-label">Genre</label>
     <div class="col-sm-10">
       <div ng-dropdown-multiselect="" options="availableGenres" selected-model="band.genres" extra-settings="availableGenresSettings"></div>
-
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <input  ng-click="saveBand()" type="submit" class="btn btn-primary" value="Save"/>
-        <button ui-sref="user.documentsAdd({id:band.id})" class="btn btn-primary">Add Media</button>
-      </div>
     </div>
   </div>
-
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <input  ng-click="saveBand()" type="submit" class="btn btn-primary" value="Save"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button ui-sref="user.documentsAdd({id:band.id})" class="btn btn-primary">Add Media</button>
+    </div>
+  </div>
+  <div ng-repeat="n in [] | range:32" ng-switch="$index%6">
+    <div class="row" ng-switch-when="0">
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500" class="img-responsive"></a></div>
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500/CCC" class="img-responsive"></a></div>
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500/DDD" class="img-responsive"></a></div>
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500/BBB" class="img-responsive"></a></div>
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500/888" class="img-responsive"></a></div>
+      <div class="col-sm-2"><a href="#" class="thumbnail"><img title="{{$index}}" src="//placehold.it/500/AAA" class="img-responsive"></a></div>
+    </div>
+  </div>
 
 
 

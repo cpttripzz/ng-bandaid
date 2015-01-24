@@ -17,13 +17,11 @@ app.directive('ngThumb', ['$window', function($window) {
             restrict: 'A',
             template: '<canvas/>',
             link: function(scope, element, attributes) {
-                if (!helper.support) return;
 
                 var params = scope.$eval(attributes.ngThumb);
-
-                if (!helper.isFile(params.file)) return;
-                if (!helper.isImage(params.file)) return;
-
+                if ( (!helper.support) || (!helper.isFile(params.file)) || (!helper.isImage(params.file)) ) {
+                    return;
+                }
                 var canvas = element.find('canvas');
                 var reader = new FileReader();
 
