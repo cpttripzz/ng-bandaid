@@ -45,6 +45,7 @@ angular.module('commonService', [])
                 'imgPath': domain + '/img',
                 'thumbPath' : domain + '/media/cache/thumb/img',
                 'assocSmallImgPath' : domain + '/media/cache/assoc/img/users/',
+                'assocGridImgPath' : domain + '/media/cache/thumb/img/users/grid/',
                 'staticData' : {
                     'genres' : baseUri + '/api/open/genres'
                 }

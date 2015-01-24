@@ -13,7 +13,7 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
     .controller('BandEditController', function ($scope, $stateParams, commonServiceFactory, band, genres,alertService,$location) {
         var apiConfig = commonServiceFactory.getApiConfig();
         var thumbPath = apiConfig.thumbPath;
-        var documentUploadUrl = apiConfig.baseUri + '/api/secure/documents';
+        $scope.assocGridImgPath =  apiConfig.assocGridImgPath;
         $scope.genreImgPath = thumbPath + '/genres/';
         $scope.availableGenres = genres;
         $scope.band = band;

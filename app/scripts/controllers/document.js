@@ -21,7 +21,7 @@ app
     })
     .controller('DocumentDialogController', function ($scope, $sessionStorage,$stateParams, commonServiceFactory,alertService,$location,$upload,$window) {
         var apiConfig = commonServiceFactory.getApiConfig();
-        var documentUploadUrl = apiConfig.baseUri + '/api/secure/documents';
+        var documentUploadUrl = apiConfig.baseUri + '/api/secure/documents/' + $stateParams.id;
         $scope.myFiles =[];
         $scope.isHTML5 = !!($window.File && $window.FormData);
 

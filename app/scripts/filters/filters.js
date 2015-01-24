@@ -29,7 +29,7 @@ app
             return out;
         };
     })
-    .filter('gridRange', function () {
+    .filter('gridRangeFilter', function () {
         return function (input, total) {
             total = parseInt(total);
             for (var i = 0; i < total; i++)
