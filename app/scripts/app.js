@@ -94,6 +94,10 @@ var app = angular
                 }
 
             })
+            .state('user.documentsAdd', {
+                url: '/user/documents/:id/add',
+                controller: 'DocumentController'
+            })
             .state('user.band', {
                 abstract: true,
                 template: "<ui-view/>",

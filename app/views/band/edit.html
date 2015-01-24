@@ -22,17 +22,12 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input  ng-click="saveBand()" type="submit" class="btn btn-primary" value="Save"/>
+        <button ui-sref="user.documentsAdd({id:band.id})" class="btn btn-primary">Add Media</button>
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" ng-file-select ng-model="myFiles" ng-multiple="true" accept="image/*" resetOnClick="true">Upload</button>
 
-  <div ng-file-drop ng-model="myFiles" ng-multiple="true" accept="image/*"
-      dragOverClass="{accept:'acceptClass', reject:'rejectClass', delay:100} dropAvailable="dropSupported">
-  Drop files here
-  </div>
 
-  <div ng-no-file-drop>File Drag/drop is not supported</div>
 
 
 
