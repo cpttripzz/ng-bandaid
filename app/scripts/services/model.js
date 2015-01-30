@@ -85,4 +85,13 @@ angular.module('modelService', [])
             }
         });
     })
+    .factory('documentResource', function(commonServiceFactory,$resource) {
+        var apiConfig = commonServiceFactory.getApiConfig();
+        var url = apiConfig.baseUri;
+        return $resource(url + '/api/secure/documents/:docId',{docId: '@docId'},{
+            deleteMethod:{
+                method:'DELETE'
+            }
+        });
+    })
 ;

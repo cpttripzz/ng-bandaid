@@ -15,9 +15,7 @@ app
             controller: 'DocumentDialogController',
             className: 'ng-dialog-width-full'
         });
-        dialog.closePromise.then(function (data) {
 
-        });
     })
     .controller('DocumentDialogController', function ($scope, $sessionStorage,$stateParams, commonServiceFactory,alertService,$location,$upload,$window) {
         var apiConfig = commonServiceFactory.getApiConfig();
