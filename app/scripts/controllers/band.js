@@ -27,6 +27,16 @@ app.controller('BandViewController', function ($scope, $stateParams, band) {
         };
         $scope.documentsToDelete = {};
 
+        $scope.tabData   = [
+            {
+                heading: 'General',
+                route:   'user.band.edit.general'
+            },
+            {
+                heading: 'Documents',
+                route:   'user.band.edit.documents'
+            }
+        ];
         $scope.beforeDeleteDocument = function () {
             var deferred = $q.defer();
 

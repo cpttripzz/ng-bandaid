@@ -1,55 +1,55 @@
 <form class="form-horizontal" role="form">
-<div class="container col-lg-12">
-  <div class="form-group">
-    <label for="name" class="col-sm-2 control-label">Name</label>
-    <div class="col-sm-10">
-      <input type="text" ng-model="band.name" class="form-control" id="name" placeholder="Name"/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="description" class="col-sm-2 control-label">Description</label>
-    <div class="col-sm-10">
-      <input type="text" ng-model="band.description" class="form-control" id="description" placeholder="Description"/>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="genre" class="col-sm-2 control-label">Genre</label>
-    <div class="col-sm-10">
-      <div ng-dropdown-multiselect="" options="availableGenres" selected-model="band.genres" extra-settings="availableGenresSettings"></div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button class="fa fa-plus-circle" ui-sref="user.documentsAdd({id:band.id})" class="btn btn-primary">Add Media</button>
-    </div>
-  </div>
-
-  <div ng-if="band.documents" class="col-sm-offset-2 panel panel-default">
-    <div class="panel-heading">Media Uploaded:</div>
-    <div class="panel-body">
-      <div ng-repeat=" doc in band.documents"  class="col-lg-2 col-sm-3 col-xs-4 thumbnail" data-drag="{{doc.id}}"
-          jqyoui-draggable="{placeholder:true, animate:true, onStart:'startDeleteDocument(item, $index)', animate: true}"
-          data-jqyoui-options="{cursor: 'crosshair', snap: '#documentsToDelete'}"
-          >
-        <img ng-src="{{assocGridImgPath + doc.path}}" class="thumbnail img-responsive">
+  <div class="container col-lg-12">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="band.name" class="form-control" id="name" placeholder="Name"/>
       </div>
     </div>
+    <div class="form-group">
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="band.description" class="form-control" id="description" placeholder="Description"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="genre" class="col-sm-2 control-label">Genre</label>
+      <div class="col-sm-10">
+        <div ng-dropdown-multiselect="" options="availableGenres" selected-model="band.genres" extra-settings="availableGenresSettings"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="fa fa-plus-circle" ui-sref="user.documentsAdd({id:band.id})" class="btn btn-primary">Add Media</button>
+      </div>
+    </div>
+
+    <div ng-if="band.documents" class="col-sm-offset-2 panel panel-default">
+      <div class="panel-heading">Media Uploaded:</div>
+      <div class="panel-body">
+        <div ng-repeat=" doc in band.documents"  class="col-lg-2 col-sm-3 col-xs-4 thumbnail" data-drag="{{doc.id}}"
+            jqyoui-draggable="{placeholder:true, animate:true, onStart:'startDeleteDocument(item, $index)', animate: true}"
+            data-jqyoui-options="{cursor: 'crosshair', snap: '#documentsToDelete'}"
+            >
+          <img ng-src="{{assocGridImgPath + doc.path}}" class="thumbnail img-responsive">
+        </div>
+      </div>
+    </div>
+
+    <div id="documentsToDelete" class="col-sm-offset-2 col-sm-10 fa fa-trash-o fa-5x" data-drop="true" ng-model="documentsToDelete"
+
+        jqyoui-droppable="{beforeDrop: 'beforeDeleteDocument',onDrop:'deleteDocument'}"
+        ng-bind="documentsToDelete.path ? 'Dropped successfully..!' : ''"></div>
+
+
+    <div class="col-sm-12">
+      <hr>
+      <input  ng-click="saveBand()" type="submit" class="btn btn-primary" value="Save"/>
+    </div>
+
   </div>
-
-  <div id="documentsToDelete" class="col-sm-offset-2 col-sm-10 fa fa-trash-o fa-5x" data-drop="true" ng-model="documentsToDelete"
-
-      jqyoui-droppable="{beforeDrop: 'beforeDeleteDocument',onDrop:'deleteDocument'}"
-      ng-bind="documentsToDelete.path ? 'Dropped successfully..!' : ''"></div>
-
-
-  <div class="col-sm-12">
-    <hr>
-    <input  ng-click="saveBand()" type="submit" class="btn btn-primary" value="Save"/>
-  </div>
-
-</div>
 
 </form>
 
