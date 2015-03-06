@@ -25,7 +25,15 @@
       <button ng-show="!showRegisterEmailField" ng-disabled="loginForm.$invalid" type="submit" ng-click="submitLogin(loginForm)" class="btn btn-primary btn-lg">Sign in</button>
       <a ng-show="!showRegisterEmailField" ng-click="showRegister()">Register</a>
       <button ng-show="showRegisterEmailField" ng-disabled="loginForm.$invalid" type="submit" ng-click="submitRegistration(loginForm)" class="btn btn-primary btn-lg">Finish Registration</button>
+      <p class="social-signin">
+        <a class="btn btn-sm btn-social btn-facebook" href="/signin/facebook">
+          <span class="fa fa-facebook"></span> <strong>Sign in with Facebook</strong>
+        </a>
 
+        <a class="btn btn-sm btn-social btn-google-plus" href="/signin/google">
+          <span class="fa fa-google-plus"></span> <strong>Sign in with Google</strong>
+        </a>
+      </p>
       <div ng-model="errors">{{loginForm.errors}}</div>
     </div>
   </form>

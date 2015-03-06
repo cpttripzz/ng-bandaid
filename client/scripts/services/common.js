@@ -31,7 +31,7 @@ angular.module('commonService', [])
     })
     .factory('commonServiceFactory', function () {
         var factory = {};
-        var domain ='https://bandaid-api.com';
+        var domain ='https://localhost:3000';
         var script = 'app_dev.php';
         var baseUri = domain + '/' + script;
         factory.getApiConfig = function () {
