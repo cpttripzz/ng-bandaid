@@ -10,8 +10,8 @@ var path = require('path'),
 var baseConfig = {
   app: {
     root: path.normalize(__dirname + '/../..'),
-    env: process.env.NODE_ENV,
-    secret: process.env.SECRET || 'secret key' /* used in signing the jwt tokens */,
+    env: process.env.NODE_ENV || 'development',
+    secret: process.env.SECRET || '54*,fklf9,4-0.ld;d03kr09-' /* used in signing the jwt tokens */,
     pass: process.env.PASS || 'pass' /* generic password for seed user logins */
   }
 };
@@ -23,7 +23,7 @@ var platformConfig = {
       port: 3000
     },
     mongo: {
-      url: 'mongodb://localhost:27017/koan-dev'
+      url: 'mongodb://localhost:27017/koa-bandaid'
     },
     oauth: {
       facebook: {
