@@ -6,9 +6,22 @@
 
 var config = require('./server/config/config'),
     mongo = require('./server/config/mongo'),
-    mongoSeed = require('./server/config/mongo-seed'),
+    waterline = require('./server/config/waterline'),
     koaConfig = require('./server/config/koa'),
     co = require('co'),
+
+
+  fs = require('fs'),
+  logger = require('koa-logger'),
+  send = require('koa-send'),
+  jwt = require('koa-jwt'),
+  cors = require('koa-cors'),
+
+  Router = require('koa-router'),
+  passport = require('koa-passport'),
+  router = new Router(),
+
+
     koa = require('./lib/application.js');
 
 var app = koa();
@@ -23,7 +36,6 @@ module.exports = app;
  * @param overwriteDB Overwrite existing database with the seed data. Useful for testing environment.
  */
 app.init = co.wrap(function *(overwriteDB) {
-
     // koa config
     koaConfig(app);
 

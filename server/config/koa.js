@@ -6,91 +6,54 @@ var fs = require('fs'),
   jwt = require('koa-jwt'),
   cors = require('koa-cors'),
   Waterline = require('waterline'),
+  Router = require('koa-router'),
+  passport = require('koa-passport'),
+  router = new Router(),
+
   config = require('./config');
+var authController = require("../controllers/auth");
 
 
 module.exports = function (app) {
   // middleware configuration
 
-  var orm = new Waterline();
-  var mongoAdapter = require('sails-mongo');
-
-  // Build A Config Object
-  var waterLineConfig = {
-
-    // Setup Adapters
-    // Creates named adapters that have have been required
-    adapters: {
-      'default': mongoAdapter,
-      'mongoAdapter': mongoAdapter
-    },
-
-    // Build Connections Config
-    // Setup connections using the named adapter configs
-    connections: {
-      localMongodbServer: {
-        adapter: 'mongoAdapter',
-        host: 'localhost',
-        port: 27017,
-        database: 'koa-bandaid'
-        // user: 'username',
-        // password: 'password',
-        // database: 'your_mongo_db_name_here'
-      }
-
-    },
-
-    defaults: {
-      migrate: 'alter'
-    }
-
-  };
-
-  // mount all the routes defined in the api controllers
-  //console.log(__dirname);
-  fs.readdirSync('./server/models').forEach(function (file) {
-    var model = require(__dirname + '/../models/' + file);
-    console.log(__dirname + '/../models/' + file);
-
-    orm.loadCollection(model);
+  require('./waterline')(app, function (err, ontology) {
+    if (err) throw err;
+    app.context.models = ontology.collections;
+    //console.log('ontology',app.context.models);
   });
+  var bodyParser = require('koa-bodyparser');
+  app.use(bodyParser());
 
-  //////////////////////////////////////////////////////////////////
-// START WATERLINE
-//////////////////////////////////////////////////////////////////
+  var passport = require('koa-passport');
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-// Start Waterline passing adapters in
-  orm.initialize(waterLineConfig, function(err, models) {
-    if(err) throw err;
-
-    app.models = models.collections;
-    app.connections = models.connections;
-
-    console.log("To see saved users, visit http://localhost:3000/users");
-  });
-
+  //require('./passport')(app,passport, config);
   if (config.app.env !== 'test') {
     app.use(logger());
   }
+  app.use(router.middleware());
+
   if (config.app.env === 'development') {
     app.use(require('koa-livereload')({excludes: ['/modules']}));
   }
   app.use(cors({
     maxAge: config.app.cacheTime / 1000,
-    credentials: true,
     methods: 'GET, HEAD, OPTIONS, PUT, POST, DELETE',
     headers: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   }));
 
   // register special controllers which should come before any jwt token check and be publicly accessible
   require('../controllers/public').init(app);
-  require('../controllers/signin').init(app);
+  require('../controllers/auth').init(app);
 
   // serve the static files in the /client directory, use caching only in production (7 days)
   var sendOpts = config.app.env === 'production' ? {root: 'client', maxage: config.app.cacheTime} : {root: 'client'};
   app.use(function *(next) {
     // do not handle /api paths
     if (this.path.substr(0, 5).toLowerCase() === '/api/') {
+      console.log('api called');
       yield next;
       return;
     } else if (yield send(this, this.path, sendOpts)) {
@@ -107,7 +70,7 @@ module.exports = function (app) {
   });
 
   // middleware below this line is only reached if jwt token is valid
-  app.use(jwt({secret: config.app.secret}));
+  //app.use(jwt({secret: config.app.secret}));
 
   // mount all the routes defined in the api controllers
   fs.readdirSync('./server/controllers').forEach(function (file) {

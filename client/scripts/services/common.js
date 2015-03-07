@@ -31,16 +31,15 @@ angular.module('commonService', [])
     })
     .factory('commonServiceFactory', function () {
         var factory = {};
-        var domain ='https://localhost:3000';
-        var script = 'app_dev.php';
-        var baseUri = domain + '/' + script;
+        var domain ='http://localhost:3000';
+        var baseUri = domain ;
         factory.getApiConfig = function () {
             return {
                 'domain': domain,
                 'baseUri': baseUri,
-                'loginPath': '/api/open/getToken',
+                'loginPath': '/api/auth/local',
                 'logoutPath': '/user/logout',
-                'registrationPath': '/user/register',
+                'registrationPath': '/api/auth/register',
                 'homePath': '/api/open/homeitems/',
                 'imgPath': domain + '/img',
                 'thumbPath' : domain + '/media/cache/thumb/img',
