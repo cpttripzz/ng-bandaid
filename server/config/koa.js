@@ -5,9 +5,7 @@ var fs = require('fs'),
   send = require('koa-send'),
   jwt = require('koa-jwt'),
   cors = require('koa-cors'),
-  mongoose = require('mongoose'),
   Router = require('koa-router'),
-  passport = require('koa-passport'),
   router = new Router(),
 
   config = require('./config');
@@ -24,25 +22,8 @@ module.exports = function (app) {
   //});
   var bodyParser = require('koa-bodyparser');
   app.use(bodyParser());
-  app.use(passport.initialize());
-  app.use(passport.session());
 
-  mongoose.connect(config.mongo.url);
-  mongoose.connection.on('error', function (err) {
-    console.log(err);
-  });
 
-  /**
-   * Load the models
-   */
-  var models_path = config.app.root + '/server/models';
-  fs.readdirSync(models_path).forEach(function (file) {
-    if (~file.indexOf('js')) {
-      require(models_path + '/' + file);
-      console.log(models_path + '/' + file);
-    }
-  });
-  //require('./passport')(app,passport, config);
   if (config.app.env !== 'test') {
     app.use(logger());
   }

@@ -1,5 +1,4 @@
 var route = require('koa-route'),
-  parse = require('co-body'),
   passport = require("koa-passport");
 
 
@@ -19,7 +18,7 @@ function *signIn() {
       ctx.status = 401;
     } else {
       yield ctx.login(user);
-      ctx.body = { user: user };
+      ctx.body = user;
     }
   }).call(this);
 }
@@ -41,11 +40,11 @@ function *register(){
   try {
     var user = new User({ username: this.request.body.username, password: this.request.body.password });
     user = yield user.save();
-    console.log(user);
   } catch (err) {
     this.throw(err);
   }
 
   this.status = 200;
-  this.body = { user: this.passport.user };
+  user.role = 'user';
+  this.body = user;
 };

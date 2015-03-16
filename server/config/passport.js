@@ -1,7 +1,8 @@
-var LocalStrategy = require('passport-local').Strategy;
-var authenticator = require('../lib/authenticator');
-var User = require('mongoose').model('User');
+console.log(__dirname);
 
+var LocalStrategy = require('passport-local').Strategy;
+var authenticator = require('../../lib/authenticator');
+var User = require('mongoose').model('User');
 var serialize = function (user, done) {
   done(null, user._id);
 };

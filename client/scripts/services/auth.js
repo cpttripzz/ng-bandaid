@@ -97,8 +97,7 @@ angular.module('auth', [])
                             user = {
                                 token: result.data.token,
                                 username: result.data.username,
-                                userId: result.data.userId,
-                                role: userRoles[result.data.roles[0]]
+                                role: userRoles[result.data.role]
                             };
                             $sessionStorage.user = user;
                             changeUser(user);
